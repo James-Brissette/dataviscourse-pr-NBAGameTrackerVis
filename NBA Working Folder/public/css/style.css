@@ -1,0 +1,15 @@
+.overlay {
+    height: 490px;
+    width: 784px;
+    transform: translate(0px,-101%);
+    fill: black;
+}
+
+.overlay circle {
+
+}
+
+svg {
+    position: absolute;
+    display: inline-block;
+}
