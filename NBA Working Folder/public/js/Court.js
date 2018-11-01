@@ -17,6 +17,11 @@ class Court{
         this.xMax = 100;
         this.yMin = 0;
         this.yMax = 50;
+
+        this.moments = this.gameData.events.map(a => a.moments.map(b => b['5'])).flat()
+        this.moment = 0;
+        this.xScale;
+        this.yScale;
     }
 
     drawPlayers() {
@@ -31,21 +36,32 @@ class Court{
         let courtX = this.courtWidth / 15;
         let courtY = this.courtHeight / 11;
 
-        let xScale = d3.scaleLinear()
+        this.xScale = d3.scaleLinear()
                         .domain([this.xMin,this.xMax])
                         .range([0 + courtX, this.courtWidth - courtX])
 
-        let yScale = d3.scaleLinear()
+        this.yScale = d3.scaleLinear()
                         .domain([this.yMin,this.yMax])
                         .range([0 + courtY, this.courtHeight - courtY])
 
-        let players = this.svg.selectAll('circle').data(this.players);
+        let players = this.svg.selectAll('circle').data(this.moments[0]);
         let playersEnter = players.enter().append('circle');
         players.exit().remove();
         players = playersEnter.merge(players);
         players
-            .attr('cx', (d,i) => xScale(i * 2))
-            .attr('cy',  (d,i) => yScale(i * 2))
-            .attr('r',2);
+            .attr('cx', (d,i) => this.xScale(i * 2))
+            .attr('cy',  (d,i) => this.yScale(i * 2))
+            .attr('r',10);
+    }
+
+    async update(i) {
+        let that = this;
+        /* console.log(that.moments[i]);
+        console.log('Data value for x = ' + that.moments[i][1][2] + '; scaled value = ' + this.xScale(that.moments[i][1][2])) */
+        
+        let players = this.svg.selectAll('circle')
+        players.data(this.moments[i])
+            .attr('cx', d => this.xScale(d[2]))
+            .attr('cy', d => this.yScale(d[3])); 
     }
 }

@@ -1,4 +1,5 @@
 
+let court = null;
 
 d3.json("data/0021500434.json").then(gameData => {
     console.log(gameData)
@@ -13,8 +14,20 @@ d3.json("data/0021500434.json").then(gameData => {
     console.log(players)
 
     let moments = gameData.events.map(a => a.moments)
-    let court = new Court(gameData, players, teams);
+    court = new Court(gameData, players, teams);
     court.drawPlayers()
 
+    for (i=0;i<500;i++) {
+        court.update(i);
+    }
     
 });
+
+function tick(i) {
+    court.update(i).then(tick(i+1))
+}
+
+function tickForever(i) {
+    tick(i);
+    window.requestAnimationFrame(tickForever(i+1));
+}
