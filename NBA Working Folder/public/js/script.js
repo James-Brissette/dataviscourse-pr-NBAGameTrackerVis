@@ -1,63 +1,46 @@
 
-let court = null;
+let court = null;   
 
-
-function filterEvents(gameData) {
-    let events = gameData.events.map(a => a.moments.map(b => b[5]));
-    console.log('Total number of events: ' + events.length);
-
-    uniqueEvents = [];
-    let uniqueID = [];
-    uniqueID.push(1)
-
-    let unique = true;
-    for (i=1; i<events.length-1;i++) {
-        unique = false;
-        for (j = 0; j < Math.min(events[i].length,events[i+1].length); j++) {
-            /* Here i is the event index and j is the moment we're comparing. [0] is the index of the ball and [2],[3] correspond the X,Y values */
-            if (events[i][j][0][2] != events[i+1][j][0][2] && events[i][j][0][3] != events[i+1][j][0][3]) {
-                /* If there is ANY x or y value that is different, we'll call it unique. Surprising how many aren't */
-                unique = true;
-            }
-        }
-        console.log('Comparing events ' + (i+1) + ' & ' + (i+2) + ': ' + unique);
-        if (unique == true) {
-            uniqueID.push(i+1);
-        }
-    }
-
-    uniqueID.forEach(eventID => {
-        uniqueEvents.push(gameData.events[eventID]);
-    });
-    console.log(uniqueEvents);
-
-    return {'gameid': gameData.gameid, 'gamedate': gameData.gamedate, 'events': uniqueEvents};
-}
-
-
-d3.json("data/0021500434.json").then(gameData => {
+gameNumber = ('00' + 434).substr(-3);
+d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     console.log(gameData);
-    let players = gameData.events[0].home.players;
-    gameData.events[0].visitor.players.forEach(player => players.push(player));
+
+    let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
 
     let teams = [];
     /*The below doesn't work for teams. If the team id is 123456 it makes an array of size 123456... will address later */
-    teams[gameData.events[0].home.teamid] = gameData.events[0].home;
-    teams[gameData.events[0].visitor.teamid] = gameData.events[0].visitor;
+    teams['' + gameData.teams.home.teamid] = gameData.teams.home;
+    teams['' + gameData.teams.visitor.teamid] = gameData.teams.visitor;
 
     console.log(teams)
     console.log(players)
 
-    let uniqueEvents = filterEvents(gameData);
-    court = new Court(uniqueEvents, players, teams);
+    //let uniqueEvents = filterEvents(gameData);
+    //console.log(uniqueEvents);
+    court = new Court(gameData, players, teams);
 
     court.drawPlayers()
+    let draw = true
+    let pause = true;
     let timer = d3.timer((elapsed) => {
-        //Runs for 40 seconds for testing
-        let t = Math.min(40, elapsed / 1000);
-        court.update();
-        if (t == 40) timer.stop();
+        timerCallback(elapsed)
     });
+
+    d3.select('#court').on('click', function () {
+            if (pause) {
+                timer.stop()
+            } else {
+                timer.restart(elapsed => timerCallback(elapsed))
+            }
+            pause = !pause;
+    });
+
+    function timerCallback(elapsed) {
+        let t = Math.min(100, elapsed / 1000);
+        if (draw) court.update();
+        draw = !draw;
+        if (t == 100) timer.stop();
+    }
 });
 
 /*================================================ Example I found on the internet of d3.timer

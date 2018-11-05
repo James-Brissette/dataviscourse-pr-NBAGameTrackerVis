@@ -46,16 +46,29 @@ class Court{
         //Math.max(...xVals.map(a => Math.max(...a)))
         //Math.max(...test.map(event => Math.max(...event.map(moment => moment.map(player => player[2])).map(playerPos => Math.max(...playerPos)))))
 
-        let courtX = this.courtWidth / 15;
+        let courtX = this.courtWidth / 16;
         let courtY = this.courtHeight / 11;
 
         this.xScale = d3.scaleLinear()
                         .domain([this.xMin,this.xMax])
-                        .range([0 + courtX, this.courtWidth - courtX])
+                        .range([0 + courtX, this.courtWidth])
 
+        
         this.yScale = d3.scaleLinear()
                         .domain([this.yMin,this.yMax])
                         .range([0 + courtY, this.courtHeight - courtY])
+
+        this.svg.append('rect')
+            .attr('x', this.xScale(0) - 2)
+            .attr('y', this.yScale(this.yMax / 2)-2)
+            .attr('height', 4)
+            .attr('width', 4);
+
+        this.svg.append('rect')
+            .attr('x', this.xScale(this.xMax) - 2)
+            .attr('y', this.yScale(this.yMax / 2)-2)
+            .attr('height', 4)
+            .attr('width', 4);
 
         let teamA = this.moments[this.moment][1][0];
 
@@ -86,7 +99,7 @@ class Court{
             .attr('cx', d => this.xScale(d[2]))
             .attr('cy', d => this.yScale(d[3]));
         
-        d3.select('#gameClock').text("Time Remaining: " + this.events[this.event].moments[this.moment]['2']);
+        d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['2'] / 60) + ':' + (this.events[this.event].moments[this.moment]['2']%60).toFixed(0));
 
        console.log('Event ' + this.event + ': ' + this.moment + ' of ' + this.moments.length)
         this.moment++;
