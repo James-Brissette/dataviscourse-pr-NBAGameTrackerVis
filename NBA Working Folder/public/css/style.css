@@ -14,7 +14,7 @@ svg {
 .court {
     width: 58%;
     float:left;
-    border: 1px solid;
+    border: 1px solid #aaa;
     margin-left:1%;
 }
 
@@ -28,7 +28,7 @@ svg {
     width: 100%;
     min-width: 1000px; 
     height: 1000px;
-    border: 1px solid;
+    border: 1px solid #aaa;
 }
 
 .team {
@@ -37,8 +37,14 @@ svg {
     /*Keeping height for display purposes. Inline-Block will eliminate need for this
     once it's populated with visualizations */
     height:365px;
-    border: 1px solid;
-    text-align: center;
+    border: 1px solid #aaa;
+}
+.team svg {
+    border: 1px solid rgb(255, 0, 0);
+}
+.teamName {
+    text-anchor: middle;
+    font-size: 30px;
 }
 #vtm {
     float:left;
@@ -49,14 +55,21 @@ svg {
 
 .header {
     height: 50px;
-    text-align: center;
+}
+.header svg {
+    height:100%;
+    width: 100%;
+}
+#headerText {
+    text-anchor: middle;
+    font-size: 35px;
 }
 .eventSlider {
     width:58%;
     height:20px;
     margin:auto;
     display: block;
-    border:1px solid;
+    border:1px solid rgb(0, 255, 85);
     text-align: center;
 }
 
@@ -64,7 +77,8 @@ svg {
     position: relative;
     display: inline-block;
     width: 100%;
-    border:2px solid blue;
+    border:2px solid #aaa;
+    background-color: #eeeeee;
 }
 
 .centered {
@@ -76,7 +90,7 @@ svg {
 .summaryChart {
     width: 200px;
     height: 150px;
-    border: 1px solid;
+    border: 1px solid rgb(117, 0, 0);
     display: inline-block;
     margin: auto;
     margin-left: 5px;

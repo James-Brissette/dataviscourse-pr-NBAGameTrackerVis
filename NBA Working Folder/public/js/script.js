@@ -1,32 +1,28 @@
 
-let court = null;   
+let court;
+let teamDisplays; 
 
 gameNumber = ('00' + 434).substr(-3);
 d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     console.log(gameData);
 
     let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
-
     let teams = [];
-    /*The below doesn't work for teams. If the team id is 123456 it makes an array of size 123456... will address later */
+    
     teams['htm'] = gameData.teams.home;
     teams['vtm'] = gameData.teams.visitor;
 
-    console.log(teams)
-    console.log(players)
-
-    //let uniqueEvents = filterEvents(gameData);
-    //console.log(uniqueEvents);
+    teamDisplays = new Team(teams);
     court = new Court(gameData, players, teams);
-
     court.drawPlayers()
     let draw = true
     let pause = true;
-    /* let timer = d3.timer((elapsed) => {
+    let timer = d3.timer((elapsed) => {
         timerCallback(elapsed)
-    }); */
+    });
 
-    d3.select('#court').on('click', function () {
+    //Simple Pause by clicking on the court
+    d3.select('.court').on('click', function () {
             if (pause) {
                 timer.stop()
             } else {
