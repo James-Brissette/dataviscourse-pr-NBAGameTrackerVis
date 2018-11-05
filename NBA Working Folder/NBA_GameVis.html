@@ -16,12 +16,63 @@
 
 <h1>NBA Game Tracker Preliminary Vis</h1>
 
-<div id='teamView'></div>
+<div id='teamView' class='frame'>
+    <div class='section'>
+        <div class='header'>
+            Jazz @ Warriors
+        </div>
+    </div>
+    <div class='section'>
+        <div id='vtm' class='team'>
+            Visitors
+        </div>
+        <div class='court'>
+            <img class='courtPNG' src='./figs/basketball-court.png'>
+            <svg class='overlay'></svg>
+        </div>
+        <div id='htm' class='team'>
+            Home
+        </div>
+    </div>
+    <div class='section'>
+        <div class='eventSlider'>
+            Slider
+        </div>
+    </div>
+    <div class='section centered'>
+        <div class='summaryChart'>
+            Chart
+        </div>
+        <div class='summaryChart'>
+            Chart
+        </div>
+        <div class='summaryChart'>
+            Chart
+        </div>
+        <div class='summaryChart'>
+            Chart
+        </div>
+    </div> 
+
+    <div class='section centered padded'>
+        <div class='summaryChart'>
+            Chart
+        </div>
+        <div class='summaryChart'>
+            Chart
+        </div>
+        <div class='summaryChart'>
+            Chart
+        </div>
+        <div class='summaryChart'>
+            Chart
+        </div>
+    </div> 
+
+</div>
 <!-- Game Court -->
 <div id="court">
-    <img class='court' src='./figs/basketball-court.png'>
-    <svg class='overlay'>
-    </svg>
+    
 </div>
 
 <script type="application/javascript" src="public/js/Court.js"></script>

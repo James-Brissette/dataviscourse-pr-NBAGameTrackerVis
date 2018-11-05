@@ -11,11 +11,74 @@ svg {
     display: inline-block;
 }
 
-#court {
-    width: 650px;
+.court {
+    width: 58%;
+    float:left;
+    border: 1px solid;
+    margin-left:1%;
 }
 
-.court {
+.courtPNG {
     display: inline-block;
     width: 100%;
+}
+
+.frame {
+    display: block;
+    width: 100%;
+    min-width: 1000px; 
+    height: 1000px;
+    border: 1px solid;
+}
+
+.team {
+    display: inline-block;
+    width:20%;
+    /*Keeping height for display purposes. Inline-Block will eliminate need for this
+    once it's populated with visualizations */
+    height:365px;
+    border: 1px solid;
+    text-align: center;
+}
+#vtm {
+    float:left;
+}
+#htm {
+    float:right;
+}
+
+.header {
+    height: 50px;
+    text-align: center;
+}
+.eventSlider {
+    width:58%;
+    height:20px;
+    margin:auto;
+    display: block;
+    border:1px solid;
+    text-align: center;
+}
+
+.section {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    border:2px solid blue;
+}
+
+.centered {
+    text-align: center;
+}
+.padded {
+    margin-top: 20px;
+}
+.summaryChart {
+    width: 200px;
+    height: 150px;
+    border: 1px solid;
+    display: inline-block;
+    margin: auto;
+    margin-left: 5px;
+    margin-right: 5px;
 }

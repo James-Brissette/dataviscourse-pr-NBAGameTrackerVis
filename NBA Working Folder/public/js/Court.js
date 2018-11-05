@@ -4,11 +4,11 @@ class Court{
         this.players = players;
         this.teams = teams;
 
-        this.courtBounds = d3.select('.court').node().getBoundingClientRect();
+        this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
         console.log(this.courtBounds);
         this.courtWidth = this.courtBounds.width;
         this.courtHeight = this.courtBounds.height;
-        this.svg = d3.select('#court').select('.overlay')
+        this.svg = d3.select('.court').select('.overlay')
         this.svg
             .attr('width',this.courtWidth)
             .attr('height',this.courtHeight)
