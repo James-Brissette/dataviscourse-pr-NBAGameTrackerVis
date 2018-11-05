@@ -37,6 +37,7 @@ class Court{
         this.moment = 0;
         this.xScale;
         this.yScale;
+        this.rScale;
     }
 
     drawPlayers() {
@@ -60,6 +61,10 @@ class Court{
                         .domain([this.yMin,this.yMax])
                         .range([0 + courtY, this.courtHeight - courtY])
 
+        this.rScale = d3.scaleLinear()
+                        .domain([0,18])
+                        .range([5, 16])
+
         this.svg.append('rect')
             .attr('x', this.xScale(0) - 2)
             .attr('y', this.yScale(this.yMax / 2)-2)
@@ -81,7 +86,7 @@ class Court{
         players
             .attr('cx', (d,i) => this.xScale(i * 2))
             .attr('cy',  (d,i) => this.yScale(i * 2))
-            .attr('r',d => d[0] == -1 ? 10 : 15)
+            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : 12)
             .attr('fill', d => d[0] == -1 ? '#C00': 
                                (d[0] == teamA ? '#060' : '#006'));
         d3.select('#eventId').text("Event" + this.event);
@@ -97,7 +102,8 @@ class Court{
         let players = this.svg.selectAll('circle')
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
-            .attr('cy', d => this.yScale(d[3]));
+            .attr('cy', d => this.yScale(d[3]))
+            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : 12);
             
         d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
 
