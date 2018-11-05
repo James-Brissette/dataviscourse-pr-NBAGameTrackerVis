@@ -43,11 +43,12 @@ d3.json("data/PlayByPlay.json").then(playData => {
 
 //Filter events from Game to remove duplicate events and duplicate moments
 gameNumber = ('00' + 434).substr(-3);
-d3.json('data/0021500'+gameNumber+'_p.json').then(gameData => {
+d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     
-    /* let filteredEvents = filterEvents(gameData);
+    console.log(gameData)
+    /* let filteredEvents = filterEvents(gameData); */
 
-    var blob = new Blob([JSON.stringify(filteredEvents)], {type : 'application/json'});
+    /* var blob = new Blob([JSON.stringify(filteredEvents)], {type : 'application/json'});
     saveAs(blob, "preproccessed.json"); */
 });
 
@@ -81,6 +82,8 @@ function filterEvents(gameData) {
     });
     //console.log(uniqueEvents);
     uniqueEvents = {'gameid': gameData.gameid, 'gamedate': gameData.gamedate, 'events': uniqueEvents};
+    console.log(gameData)
+    console.log(gameData.events[0].visitor)
 
     
     let testList = [];
@@ -89,7 +92,7 @@ function filterEvents(gameData) {
 
     console.log(uniqueEvents);
     for (j = 0; j < uniqueEvents.events.length; j++) {
-        //console.log('Event ' + (j+1) + ' of ' + uniqueEvents.events.length)
+        console.log('Event ' + (j+1) + ' of ' + uniqueEvents.events.length)
         i = 0;
         momentList = [];
         //flat = uniqueEvents.events.map(a => a.moments.map(b => b[5])).flat();
@@ -110,7 +113,7 @@ function filterEvents(gameData) {
     }
 
     console.log(outputList);
-    return {'gameid': gameData.gameid, 'gamedate': gameData.gamedate, 'events': outputList, 'teams': {'home': uniqueEvents.events[0].home, 'visitor': uniqueEvents.events[0].visitor}} 
+    return {'gameid': gameData.gameid, 'gamedate': gameData.gamedate, 'events': outputList, 'teams': {'home': gameData.events[0].home, 'visitor': gameData.events[0].visitor}} 
 }
 
 //Combine all PlayByPlay data into one JSON file
@@ -142,8 +145,8 @@ function filterEvents(gameData) {
 
 //Process Time Clock information to line up with play by play
 gameNumber = ('00' + 434).substr(-3);
-d3.json('data/0021500'+gameNumber+'.json').then(gameData => {
-    console.log(gameData);
+ d3.json('data/0021500'+gameNumber+'_p.json').then(gameData => {
+    /*console.log(gameData);
     d3.json("data/PlayByPlay_p.json").then(playData => {
         console.log(gameData);
         p = playData[+gameNumber -1];
@@ -181,10 +184,10 @@ d3.json('data/0021500'+gameNumber+'.json').then(gameData => {
 
         console.log(gameData);
         console.log(p);
-        /* var blob = new Blob([JSON.stringify(gameData)], {type : 'application/json'});
-        saveAs(blob, '0021500'+gameNumber+'_p3.json'); */
+         var blob = new Blob([JSON.stringify(gameData)], {type : 'application/json'});
+        saveAs(blob, '0021500'+gameNumber+'_p2.json');
 
-    });
+    }); */
 
 
 

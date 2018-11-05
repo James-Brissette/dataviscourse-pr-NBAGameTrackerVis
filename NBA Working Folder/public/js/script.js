@@ -9,8 +9,8 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
 
     let teams = [];
     /*The below doesn't work for teams. If the team id is 123456 it makes an array of size 123456... will address later */
-    teams['' + gameData.teams.home.teamid] = gameData.teams.home;
-    teams['' + gameData.teams.visitor.teamid] = gameData.teams.visitor;
+    teams['htm'] = gameData.teams.home;
+    teams['vtm'] = gameData.teams.visitor;
 
     console.log(teams)
     console.log(players)

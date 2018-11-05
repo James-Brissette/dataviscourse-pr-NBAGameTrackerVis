@@ -4,14 +4,16 @@ class Court{
         this.players = players;
         this.teams = teams;
 
-        this.svg = d3.select('#court').append('svg');
         this.courtBounds = d3.select('.court').node().getBoundingClientRect();
+        console.log(this.courtBounds);
         this.courtWidth = this.courtBounds.width;
         this.courtHeight = this.courtBounds.height;
+        this.svg = d3.select('#court').select('.overlay')
         this.svg
             .attr('width',this.courtWidth)
             .attr('height',this.courtHeight)
-            .attr('transform','translate(-' + this.courtWidth + ',0)')
+            //.attr('transform','translate(-' + this.courtWidth + ',0)')
+            .attr('transform','translate(0,' + -this.courtHeight+ ')')
 
         this.svg.append('text').attr('id','eventId')
             .attr('x', this.courtWidth / 2)
@@ -31,7 +33,7 @@ class Court{
 
         this.events = this.gameData.events;
         this.event = 0;
-        this.moments = this.events[this.event].moments.map(a => a[5]);
+        this.moments = this.events[this.event].moments.map(a => a[4]);
         this.moment = 0;
         this.xScale;
         this.yScale;
@@ -70,7 +72,7 @@ class Court{
             .attr('height', 4)
             .attr('width', 4);
 
-        let teamA = this.moments[this.moment][1][0];
+        let teamA = this.teams['htm'].teamid
 
         let players = this.svg.selectAll('circle').data(this.moments[0]);
         let playersEnter = players.enter().append('circle');
@@ -95,6 +97,7 @@ class Court{
         /* console.log('Data value for x = ' + that.moments[i][1][2] + '; scaled value = ' + this.xScale(that.moments[i][1][2])) */
         
         let players = this.svg.selectAll('circle')
+        console.log(this.moments[this.moment]);
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
             .attr('cy', d => this.yScale(d[3]));
@@ -107,10 +110,14 @@ class Court{
 
     loadEvent() {
         this.event++;
+        console.log('Loading event ' + this.event);
         d3.select('#eventId').text("Event " + this.event);
-        if (this.event > this.events.length - 1) return;
+        if (this.event > this.events.length - 1) {
+            console.log('reached the end of the events');
+            return;
+        }
 
-        this.moments = this.events.map(a => a.moments.map(b => b['5']))[this.event];
+        this.moments = this.events.map(a => a.moments.map(b => b['4']))[this.event];
         this.moment = 0;
     }
     
