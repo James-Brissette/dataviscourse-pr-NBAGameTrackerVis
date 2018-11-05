@@ -93,18 +93,14 @@ class Court{
             this.loadEvent();
             return;
         }
-        /* console.log("Updating to Moments: " + this.moment); */
-        /* console.log('Data value for x = ' + that.moments[i][1][2] + '; scaled value = ' + this.xScale(that.moments[i][1][2])) */
         
         let players = this.svg.selectAll('circle')
-        console.log(this.moments[this.moment]);
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
             .attr('cy', d => this.yScale(d[3]));
-        
-        d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['2'] / 60) + ':' + (this.events[this.event].moments[this.moment]['2']%60).toFixed(0));
+            
+        d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
 
-       console.log('Event ' + this.event + ': ' + this.moment + ' of ' + this.moments.length)
         this.moment++;
     }
 
