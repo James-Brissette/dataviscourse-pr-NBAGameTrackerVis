@@ -39,18 +39,18 @@
             Slider
         </div>
     </div>
-    <div class='section centered padded'>
+    <div class='section centered padded chart'>
         <div class='summaryChart'>
-            Chart
+            <svg id='abc'></svg>
         </div>
         <div class='summaryChart'>
-            Chart
+            <svg id='abc'></svg>
         </div>
         <div class='summaryChart'>
-            Chart
+            <svg id='abc'></svg>
         </div>
         <div class='summaryChart'>
-            Chart
+            <svg id='abc'></svg>
         </div>
     </div> 
 
@@ -64,7 +64,7 @@
         <div class='summaryChart'>
             Chart
         </div>
-        <div class='summaryChart'>
+        <div class='summaryChart test'>
             Chart
         </div>
     </div> 
@@ -76,13 +76,16 @@
 </div>
 
 <script type="application/javascript" src="public/js/Court.js"></script>
-<script type="application/javascript" src="public/js/Team.js"></script>
+<!-- <script type="application/javascript" src="public/js/Team.js"></script> -->
+<script type="application/javascript" src="public/js/StackedBarChart.js"></script>
 <script type="application/javascript" src="public/js/script.js"></script>
 <!-- <script type="application/javascript" src="public/js/preprocess.js"></script> -->
 <script>
-    /* d3.json("python/TestData.json").then(gameData => {
-        console.log(gameData);
-    }) */
+
+    d3.svg('./figs/svg-logos/PHI.svg').then(svg => {
+        let s = d3.select(svg).select('svg').attr('width',200);
+        d3.select('#vtm').node().appendChild(s.node());
+    });
 </script>
 
 </body>

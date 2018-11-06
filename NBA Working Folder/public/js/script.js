@@ -12,8 +12,18 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     teams['htm'] = gameData.teams.home;
     teams['vtm'] = gameData.teams.visitor;
 
-    teamDisplays = new Team(teams);
-    court = new Court(gameData, players, teams, teamDisplays);
+    let s;
+    d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
+        console.log(chartData);
+        let playerStatCol = 17;
+        let teamStatCol = 13;
+        let yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
+        let passes = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
+        s = new StackedBarChart(passes,teams,'abc',playerStatCol,yMax);
+    });
+
+    //teamDisplays = new Team(teams);
+    court = new Court(gameData, players, teams, null); //teamDisplays);
     court.drawPlayers()
     let draw = true
     let pause = true;
@@ -21,6 +31,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
         timerCallback(elapsed)
     });
 
+    
     //Simple Pause by clicking on the court
     d3.select('.court').on('click', function () {
             if (pause) {
