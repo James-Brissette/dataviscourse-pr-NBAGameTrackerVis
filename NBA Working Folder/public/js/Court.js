@@ -1,9 +1,10 @@
 class Court{
-    constructor(gameData, players, teams) {
+    constructor(gameData, players, teams, teamDisplays) {
         this.gameData = gameData;
         this.players = players;
         this.teams = teams;
-
+        this.teamDisplays = teamDisplays;
+        
         this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
         console.log(this.courtBounds);
         this.courtWidth = this.courtBounds.width;
@@ -64,7 +65,7 @@ class Court{
 
         this.rScale = d3.scaleLinear()
                         .domain([0,18])
-                        .range([5 + this.scaleEffect, 16 + this.scaleEffect])
+                        .range([4 + this.scaleEffect, 16 + this.scaleEffect])
 
         this.svg.append('rect')
             .attr('x', this.xScale(0) - 2)

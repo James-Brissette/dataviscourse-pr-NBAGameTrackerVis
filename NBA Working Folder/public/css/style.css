@@ -21,12 +21,13 @@ svg {
 .courtPNG {
     display: inline-block;
     width: 100%;
+
 }
 
 .frame {
     display: block;
     width: 100%;
-    min-width: 1000px; 
+    min-width: 1230px; 
     height: 1000px;
     border: 1px solid #aaa;
 }
@@ -36,7 +37,7 @@ svg {
     width:20%;
     /*Keeping height for display purposes. Inline-Block will eliminate need for this
     once it's populated with visualizations */
-    height:365px;
+    height:450px;
     border: 1px solid #aaa;
 }
 .team svg {
@@ -46,12 +47,20 @@ svg {
     text-anchor: middle;
     font-size: 30px;
 }
+.activeRoster {
+    transform: rotate(5deg)
+}
 #vtm {
     float:left;
 }
 #htm {
     float:right;
 }
+#htm image {
+}
+#htmPlayers {
+}
+
 
 .header {
     height: 50px;

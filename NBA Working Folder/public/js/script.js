@@ -13,7 +13,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     teams['vtm'] = gameData.teams.visitor;
 
     teamDisplays = new Team(teams);
-    court = new Court(gameData, players, teams);
+    court = new Court(gameData, players, teams, teamDisplays);
     court.drawPlayers()
     let draw = true
     let pause = true;
