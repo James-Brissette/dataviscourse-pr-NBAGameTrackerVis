@@ -1,5 +1,6 @@
 class Team {
     constructor(teams) {
+        this.court;
         this.teams = teams;
         console.log(this.teams);
         d3.select('#htm').select('svg').remove();
@@ -33,79 +34,165 @@ class Team {
         let htmLogoAbbreviation = this.teams.htm.abbreviation;
         let vtmLogoAbbreviation = this.teams.vtm.abbreviation;
 
-        
-        this.htm.append('rect')
-            .attr('width', this.teamWidth / 2)
-            .attr('height', this.teamWidth / 2)
-            .attr('x', this.teamWidth / 4)
-            .attr('y', 10)
-            .attr('fill', '#006')
-        this.vtm.append('rect')
-            .attr('width', this.teamWidth / 2)
-            .attr('height', this.teamWidth / 2)
-            .attr('x', this.teamWidth / 4)
-            .attr('y', 10)
-            .attr('fill', '#060')
+        d3.svg('./figs/svg-logos/' + vtmLogoAbbreviation + '.svg').then(svg => {
+            let s = d3.select(svg).select('svg').classed('teamLogo',true)
+                .attr('width', this.teamWidth / 2)
+                .attr('height', this.teamWidth / 3)
+                .attr('x', this.teamWidth / 4)
+                .attr('y', 10)
+            this.vtm.node().appendChild(s.node());
+        });
+
+        d3.svg('./figs/svg-logos/' + htmLogoAbbreviation + '.svg').then(svg => {
+            let s = d3.select(svg).select('svg').classed('teamLogo',true)
+                .attr('width', this.teamWidth / 2)
+                .attr('height', this.teamWidth / 3)
+                .attr('x', this.teamWidth / 4)
+                .attr('y', 10)
+            this.htm.node().appendChild(s.node());
+        });
 
         this.htm.append('text').classed('teamName',true)
             .attr('x', this.teamWidth / 2)
-            .attr('y', this.teamWidth / 2)
-            .attr('fill','white')
+            .attr('y', this.teamWidth / 2.2)
             .text(this.teams.htm.abbreviation)
         this.vtm.append('text').classed('teamName',true)
             .attr('x', this.teamWidth / 2)
-            .attr('y', this.teamWidth / 2)
-            .attr('fill','white')
+            .attr('y', this.teamWidth / 2.2)
             .text(this.teams.vtm.abbreviation)
 
-        /* //Will Use this once we get the logos in a better format (svg)
-        this.htm.selectAll('image').remove()
-        this.vtm.selectAll('image').remove()
+    }
 
-        this.htm.append('image')
-            .attr('xlink:href', './figs/' + htmLogoAbbreviation + '.gif')
-            .attr('width', this.teamWidth * (2/3)) */
+    updateActivePlayers(activeList) {
+        /**
+         * Takes in a list of player id's and updates the active status of 
+         * the corresponding players on the court;
+         */
+
+        this.teams.htm.players.forEach(player => {
+            if (activeList.indexOf(player.playerid) == -1) {
+                player.active = false;
+            } else {
+                player.active = true;
+            }
+        })
+        this.teams.vtm.players.forEach(player => {
+            if (activeList.indexOf(player.playerid) == -1) {
+                player.active = false;
+            } else {
+                player.active = true;
+            }
+        })
+
+        let htmActive = d3.select('#htmActivePlayers')
+                        .selectAll('text').data(this.teams.htm.players.filter(d => { return d.active == true }))
+        let htmActiveEnter = htmActive.enter().append('text');
+        htmActive.exit().remove();
+        htmActive = htmActiveEnter.merge(htmActive);
+
+        let htmBench = d3.select('#htmBenchPlayers')
+                        .selectAll('text').data(this.teams.htm.players.filter(d => { return d.active == false }))
+        let htmBenchEnter = htmBench.enter().append('text');
+        htmBench.exit().remove();
+        htmBench = htmBenchEnter.merge(htmBench);
+
+
+        let vtmActive = d3.select('#vtmActivePlayers')
+                        .selectAll('text').data(this.teams.vtm.players.filter(d => { return d.active == true }))
+        let vtmActiveEnter = vtmActive.enter().append('text');
+        vtmActive.exit().remove();
+        vtmActive = vtmActiveEnter.merge(vtmActive);
+
+        let vtmBench = d3.select('#vtmBenchPlayers')
+                        .selectAll('text').data(this.teams.vtm.players.filter(d => { return d.active == false }))
+        let vtmBenchEnter = vtmBench.enter().append('text');
+        vtmBench.exit().remove();
+        vtmBench = vtmBenchEnter.merge(vtmBench);
+        
+
+        htmActive
+            .text(d => d.firstname + ' ' + d.lastname)
+            .attr('x', this.teamWidth / 6)
+            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('text-anchor', 'start')
+        htmBench
+            .text(d => d.firstname + ' ' + d.lastname)
+            .attr('x', this.teamWidth / 6)
+            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('text-anchor', 'start')
+
+        vtmActive
+            .text(d => d.firstname + ' ' + d.lastname)
+            .attr('x', this.teamWidth / 6)
+            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('text-anchor', 'start')
+        vtmBench
+            .text(d => d.firstname + ' ' + d.lastname)
+            .attr('x', this.teamWidth / 6)
+            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('text-anchor', 'start')
     }
 
     drawPlayers() {
-        this.htm.append('g').classed('activeRoster', true);
-        this.vtm.append('g').classed('activeRoster', true);
-        let active = d3.selectAll('.activeRoster').append('text')
+        /**
+         * Updates the Active and Bench rosters with the current active players 
+         * on the court;
+         */
+
+        this.htm.append('g').classed('activeRoster htm', true);
+        this.vtm.append('g').classed('activeRoster vtm', true);
+        this.htm.append('g').classed('benchRoster htm', true);
+        this.vtm.append('g').classed('benchRoster vtm', true);
+
+        let activeRoster = d3.selectAll('.activeRoster')
+        let rosterBoxHeight = 30;
+        let activeRosterBoxWidth = 110;
+        let benchRosterBoxWidth = 170;
+
+        activeRoster.append('rect')
+            .attr('x', (this.teamWidth / 16) - 10)
+            .attr('y', this.teamWidth - (2*rosterBoxHeight/3))
+            .attr('width',activeRosterBoxWidth)
+            .attr('height', rosterBoxHeight)
+            .attr('fill', '#aaa')
+        activeRoster.append('text')
             .attr('x', this.teamWidth / 16)
             .attr('y', this.teamWidth)
             .text('Active Roster')
-//Need to translate and rotate
+        
+
+        let benchPlayers = d3.selectAll('.benchRoster')
+        benchPlayers.append('rect')
+            .attr('x', (this.teamWidth / 16) - (benchRosterBoxWidth / 3))
+            .attr('y', this.teamWidth - (2*rosterBoxHeight/3))
+            .attr('width',benchRosterBoxWidth)
+            .attr('height', rosterBoxHeight)
+        benchPlayers.append('text')
+            .attr('x', (this.teamWidth / 16) + 5)
+            .attr('y', this.teamWidth)
+            .text('Bench')
 
 
-        let htmPlayers = this.htm.append('g')
-            .attr('id', 'htmPlayers')
-            .attr('transform','translate(0,'+ (this.teamWidth/2 + 50) + ')')
-            .selectAll('text').data(this.teams.htm.players)
-        let htmPlayersEnter = htmPlayers.enter().append('text');
-        htmPlayers.exit().remove();
-        htmPlayers = htmPlayersEnter.merge(htmPlayers);
+        d3.select('.activeRoster.htm').append('g')
+            .attr('id', 'htmActivePlayers')
+            .attr('transform','translate(0,'+ (this.teamWidth/2 + 10) + ')');
+        d3.select('.benchRoster.htm').append('g')
+            .attr('id', 'htmBenchPlayers')
+            .attr('transform','translate(0,'+ (this.teamWidth/2 + activeRosterBoxWidth + 20) + ')')
+            
 
-        let vtmPlayers = this.vtm.append('g')
-            .attr('id', 'vtmPlayers')
-            .attr('transform','translate(0,'+ (this.teamWidth/2 + 50) + ')')
-            .selectAll('text').data(this.teams.vtm.players)
-        let vtmPlayersEnter = vtmPlayers.enter().append('text');
-        vtmPlayers.exit().remove();
-        vtmPlayers = vtmPlayersEnter.merge(vtmPlayers);
-
-        htmPlayers
-            .text(d => d.firstname + ' ' + d.lastname)
-            .attr('x', this.teamWidth / 8)
-            .attr('y', (d,i) => 10 + 15 * i)
-            .attr('text-anchor', 'start')
-
-        vtmPlayers
-            .text(d => d.firstname + ' ' + d.lastname)
-            .attr('x', this.teamWidth / 8)
-            .attr('y', (d,i) => 10 + 15 * i)
-            .attr('text-anchor', 'start')
-
+        d3.select('.activeRoster.vtm').append('g')
+            .attr('id', 'vtmActivePlayers')
+            .attr('transform','translate(0,'+ (this.teamWidth/2 + 10) + ')')
+        d3.select('.benchRoster.vtm').append('g')
+            .attr('id', 'vtmBenchPlayers')
+            .attr('transform','translate(0,'+ (this.teamWidth/2 + activeRosterBoxWidth + 20) + ')')
+        
+        this.updateActivePlayers([]);
     }
     
+    linkToCourt(court) {
+        this.court = court;
+    }
 
 }

@@ -1,3 +1,8 @@
+body {
+    background-image: url('../../figs/nba_webBG.jpg');
+    background-size: cover;
+}
+
 .overlay {
     position: absolute;
 }
@@ -37,7 +42,7 @@ svg {
     width:20%;
     /*Keeping height for display purposes. Inline-Block will eliminate need for this
     once it's populated with visualizations */
-    height:450px;
+    height:475px;
     border: 1px solid #aaa;
 }
 .team svg {
@@ -46,10 +51,26 @@ svg {
 .teamName {
     text-anchor: middle;
     font-size: 30px;
+    fill: white;
 }
-.activeRoster {
-    transform: rotate(5deg)
+.activeRoster > rect, .activeRoster > text {
+    transform-origin: 15% 65%;
+    transform: translate(10px,-90px) rotate(270deg);
 }
+#vtmActivePlayers, #htmActivePlayers {
+    cursor: pointer;
+}
+#vtmBenchPlayers, #htmBenchPlayers {
+    cursor: default;
+}
+.benchRoster > rect, .benchRoster > text {
+    transform-origin: 15% 65%;
+    transform: translate(10px,45px) rotate(270deg);
+}
+.benchRoster > rect {
+    fill: red;
+}
+
 #vtm {
     float:left;
 }
@@ -61,7 +82,9 @@ svg {
 #htmPlayers {
 }
 
-
+h1 {
+    color: white;
+}
 .header {
     height: 50px;
 }
@@ -71,7 +94,8 @@ svg {
 }
 #headerText {
     text-anchor: middle;
-    font-size: 35px;
+    font-size: 40px;
+    fill: white;
 }
 .eventSlider {
     width:58%;
@@ -87,7 +111,7 @@ svg {
     display: inline-block;
     width: 100%;
     border:2px solid #aaa;
-    background-color: #eeeeee;
+    background-color: rgba(100,100,100,.4);
 }
 
 .centered {
@@ -112,4 +136,122 @@ svg {
 
 .y-axis {
     transform: translate(30px,8px);
+}
+
+/* Player Colors */
+.ATL {
+    fill: #ef3748;
+    stroke: #2c2f61;
+}
+.BKN {
+    fill: #c3c5bd;
+    stroke: #2e2c61;
+}
+.BOS {
+    fill: #008d4c;
+    stroke: #111623;
+}
+.CHA {
+    fill: #058ba6;
+    stroke: #272360;
+}
+.CHI {
+    fill: #ee2844;
+    stroke: black;
+}
+.CLE {
+    fill: #880C36;
+    stroke: #F7BB2F;
+}
+.DAL {
+    fill: #F7BB2F;
+    stroke: #afc1c6;
+}
+.DEN {
+    fill: #f9a01b;
+    stroke: #006991;
+}
+.DET {
+    fill: #ee2e55;
+    stroke: #05a2d2;
+}
+.GSW {
+    fill: #244789;
+    stroke: #fbae2e;
+}
+.HOU {
+    fill: white;
+    stroke: black;
+}
+.IND {
+    fill: white;
+    stroke: black;
+}
+.LAC {
+    fill: white;
+    stroke: black;
+}
+.LAL {
+    fill: white;
+    stroke: black;
+}
+.MEM {
+    fill: white;
+    stroke: black;
+}
+.MIA {
+    fill: white;
+    stroke: black;
+}
+.MIL {
+    fill: white;
+    stroke: black;
+}
+.MIN {
+    fill: white;
+    stroke: black;
+}
+.NYK {
+    fill: white;
+    stroke: black;
+}
+.OKC {
+    fill: white;
+    stroke: black;
+}
+.ORL {
+    fill: white;
+    stroke: black;
+}
+.PHI {
+    fill: white;
+    stroke: black;
+}
+.PHX {
+    fill: white;
+    stroke: black;
+}
+.POR {
+    fill: white;
+    stroke: black;
+}
+.SAC {
+    fill: white;
+    stroke: black;
+}
+.SAS {
+    fill: white;
+    stroke: black;
+}
+.TOR {
+    fill: white;
+    stroke: black;
+}
+.UTA {
+    fill: white;
+    stroke: black;
+}
+.WAS {
+    fill: white;
+    stroke: black;
 }

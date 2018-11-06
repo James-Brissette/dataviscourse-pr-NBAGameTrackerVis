@@ -6,7 +6,7 @@ class Court{
         this.teamDisplays = teamDisplays;
         
         this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
-        console.log(this.courtBounds);
+
         this.courtWidth = this.courtBounds.width;
         this.courtHeight = this.courtBounds.height;
         this.scaleEffect = this.courtWidth > 950 ? 4 : (this.courtWidth > 750 ? 2 : 0);
@@ -92,6 +92,11 @@ class Court{
             .attr('fill', d => d[0] == -1 ? '#C00': 
                                (d[0] == teamA ? '#060' : '#006'));
         d3.select('#eventId').text("Event" + this.event);
+
+        console.log(this.moments[0].map(a => a[1]).slice(1,11));
+        let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
+        this.teamDisplays.updateActivePlayers(activePlayerList)
+        this.teamDisplays.linkToCourt(this);
     }
 
     update() {
