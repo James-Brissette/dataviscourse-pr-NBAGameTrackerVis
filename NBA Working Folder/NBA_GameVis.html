@@ -26,12 +26,14 @@
     </div>
     <div class='section padded main'>
         <div id='vtm' class='team'>
+            <div class='icon-highlight vtm'></div>
         </div>
         <div class='court'>
             <img class='courtPNG' src='./figs/basketball-court.png'>
             <svg class='overlay'></svg>
         </div>
         <div id='htm' class='team'>
+            <div class='icon-highlight htm'></div>
         </div>
     </div>
     <div class='section'>
@@ -41,31 +43,31 @@
     </div>
     <div class='section centered padded chart'>
         <div class='summaryChart'>
-            <svg id='abc'></svg>
+            <svg id='chart1'></svg>
         </div>
         <div class='summaryChart'>
-            <svg id='abc'></svg>
+            <svg id='chart2'></svg>
         </div>
         <div class='summaryChart'>
-            <svg id='abc'></svg>
+            <svg id='chart3'></svg>
         </div>
         <div class='summaryChart'>
-            <svg id='abc'></svg>
+            <svg id='chart4'></svg>
         </div>
     </div> 
 
     <div class='section centered padded'>
         <div class='summaryChart'>
-            Chart
+            <svg id='chart5'></svg>
         </div>
         <div class='summaryChart'>
-            Chart
+            <svg id='chart6'></svg>
         </div>
         <div class='summaryChart'>
-            Chart
+            <svg id='chart7'></svg>
         </div>
         <div class='summaryChart test'>
-            Chart
+            <svg id='chart8'></svg>
         </div>
     </div> 
 
@@ -81,18 +83,6 @@
           <stop offset="100%" stop-color="#391a1c" />
         </linearGradient>
     </svg>
-    <filter id="dropshadow" height="130%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> <!-- stdDeviation is how much to blur -->
-        <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="0.5"/> <!-- slope is the opacity of the shadow -->
-        </feComponentTransfer>
-        <feMerge> 
-          <feMergeNode/> <!-- this contains the offset blurred image -->
-          <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
-        </feMerge>
-    </filter>
-    
 
 </div>
 <!-- Game Court -->
@@ -100,11 +90,11 @@
     
 </div>
 
-<script type="application/javascript" src="public/js/Court.js"></script>
+<!-- <script type="application/javascript" src="public/js/Court.js"></script>
 <script type="application/javascript" src="public/js/Team.js"></script>
 <script type="application/javascript" src="public/js/StackedBarChart.js"></script>
-<script type="application/javascript" src="public/js/script.js"></script>
-<!-- <script type="application/javascript" src="public/js/preprocess.js"></script> -->
+<script type="application/javascript" src="public/js/script.js"></script> -->
+<script type="application/javascript" src="public/js/preprocess.js"></script>
 <script>
 d3.svg('./figs/svg-logos/MIA.svg').then(svg => {
             let s = d3.select(svg).select('svg').classed('teamLogo',true)

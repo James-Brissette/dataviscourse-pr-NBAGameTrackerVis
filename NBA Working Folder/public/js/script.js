@@ -19,13 +19,17 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     })
 
     let s;
+    let t;
     d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
-        console.log(chartData);
-        let playerStatCol = 17;
-        let teamStatCol = 13;
-        let yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
-        let passes = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
-        s = new StackedBarChart(passes,teams,'abc',playerStatCol,yMax);
+        let playerStats = ['PASS','AST']
+
+        for (i=0; i < playerStats.length; i++) {
+            playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[i]);
+            teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i]);
+            yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
+            stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
+            new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax);
+        }
     });
 
     teamDisplays = new Team(teams);

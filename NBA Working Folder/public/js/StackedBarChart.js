@@ -26,6 +26,8 @@ class StackedBarChart{
     }    
 
     drawBars() {
+        console.log(this.yMax);
+        let yScaleMax = this.chartHeight - 50;
         this.teamScale = d3.scaleLinear()
                         .domain([1,2])
                         .range([(this.chartWidth - 50)/4,(this.chartWidth - 50)*(3/4)])
@@ -35,7 +37,7 @@ class StackedBarChart{
         
         this.yScale = d3.scaleLinear()
                         .domain([this.yMin,this.yMax])
-                        .range([this.chartHeight - 30,0])
+                        .range([yScaleMax,0])
 
         let xAxis = d3.axisBottom(this.xScale)
                         .ticks([3])
@@ -43,22 +45,27 @@ class StackedBarChart{
         let yAxis = d3.axisLeft(this.yScale)
                         .ticks(5)
 
-        this.svg.append('g').classed('x-axis',true)
+        let wrapper = this.svg.append('g').classed('barWrapper', true);
+        let bars = wrapper.append('g').classed('stacked-bars',true).selectAll('rect').data(this.chartData)
+        wrapper.append('g').classed('x-axis',true)
             .call(xAxis);
-
-        this.svg.append('g').classed('y-axis',true)
+        wrapper.append('g').classed('y-axis',true)
             .call(yAxis);
 
-        let bars = this.svg.append('g').classed('stacked-bars',true).selectAll('rect').data(this.chartData)
         let barsEnter = bars.enter().append('rect');
         bars.exit().remove()
         bars = barsEnter.merge(bars)
+        console.log(bars);
         bars
-            .attr('x', d => d[0] == this.teams.vtm.abbreviation ? (this.chartWidth - 50)/4 : (this.chartWidth - 50)*(3/4))
-            .attr('y', 0)
-            .attr('width',15)
-            .attr('height', d => this.yScale(+d[3]))
-            .attr('fill', d => d[0] == this.teams.htm.abbreviation ? '#006' : '#060')
+            .attr('x', d => d[0] == this.teams.vtm.abbreviation ? (this.chartWidth - 50)/3 : (this.chartWidth - 50)*(2/3))
+            .attr('y', (d,i) => i - 1 == -1 ? 
+                        this.yScale(0) - ((yScaleMax) - this.yScale(d[3])) : 
+                        (d[0] == d3.select(bars.nodes()[i-1])._groups['0']['0'].__data__[0] ? 
+                        d3.select(bars.nodes()[i-1])._groups['0']['0'].y.baseVal.value - ((yScaleMax) - this.yScale(d[3])):
+                        this.yScale(0) - ((yScaleMax) - this.yScale(d[3]))))
+            .attr('width',60)
+            .attr('height', d => (yScaleMax) - this.yScale(d[3]))
+            .attr('fill', (d,i) => d[0] == this.teams.htm.abbreviation ? 'rgb(0,40,' + (10*i) +')' : 'rgb(0,' + (15*i) +',100)')
 
     }
 

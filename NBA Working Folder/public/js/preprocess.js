@@ -193,6 +193,20 @@ gameNumber = ('00' + 434).substr(-3);
 
 });
 
+d3.json('data/teams.json').then(gameData => {
+    /* let teams_p = gameData.league.standard.map(a => [a.fullName, a.isNBAFranchise, a.teamId, a.tricode]);
+    teams_p = teams_p.filter(team => team[1] == true)
+
+    let blob = new Blob([JSON.stringify(teams_p,null,4)], {type : 'application/json'});
+    saveAs(blob, "teams_p.json"); */
+});
+
+d3.json('data/players.json').then(gameData => {
+    let players = gameData.league.standard.map(a => [a.firstName, a.lastName, a.personId, a.teamId.slice(0,a.teamId.indexOf(' '))])
+
+    /* let blob = new Blob([JSON.stringify(players)], {type : 'application/json'});
+    saveAs(blob, "players_p.json"); */
+});
 
 
 
