@@ -34,7 +34,7 @@ class Team {
         let htmLogoAbbreviation = this.teams.htm.abbreviation;
         let vtmLogoAbbreviation = this.teams.vtm.abbreviation;
         let svgWidth = 140;
-        d3.svg('./figs/svg-logos/' + vtmLogoAbbreviation + '.svg').then(svg => {
+        d3.svg('./figs/svg-logos/nba/' + vtmLogoAbbreviation + '.svg').then(svg => {
             let s = d3.select(svg).select('svg').classed('teamLogo',true)
                 .attr('width', svgWidth)
                 .attr('height', svgWidth)
@@ -43,7 +43,7 @@ class Team {
             this.vtm.node().appendChild(s.node());
         });
 
-        d3.svg('./figs/svg-logos/' + htmLogoAbbreviation + '.svg').then(svg => {
+        d3.svg('./figs/svg-logos/nba/' + htmLogoAbbreviation + '.svg').then(svg => {
             let s = d3.select(svg).select('svg').classed('teamLogo',true)
                 .attr('width', svgWidth)
                 .attr('height', svgWidth)

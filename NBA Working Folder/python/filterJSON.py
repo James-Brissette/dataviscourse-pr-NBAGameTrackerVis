@@ -9,7 +9,7 @@ from requests import get
 from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
-from selenium import webdriver
+#from selenium import webdriver
 from pandas import *
 import pandas
 import numpy as np
@@ -21,17 +21,26 @@ import time
 
 import urllib.request
 
-with open('players_p.json') as f:
+with open('teams_p.json') as f:
     data = json.load(f)
     
 errors = [];
-for i in range(51, len(data)):
-    print('Fetching ' + str(data[i][0]) + ' ' + str(data[i][1]) + ' at i=' + str(i) + ':  ' + str(data[i][2]))
+
+for i in range(len(data)):
+    print('Fetching ' + data[i][3])
     try:
-        urllib.request.urlretrieve("https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/" + str(data[i][3]) + "/2016/260x190/" + str(data[i][2]) +".png", str(data[i][2])+".png")
+        urllib.request.urlretrieve('https://stats.nba.com/media/img/teams/logos/' + data[i][3] + '_logo.svg',data[i][3]+".svg")
     except:
         print('Error at i=' +str(i))
         errors.append(i)
+
+#for i in range(51, len(data)):
+#    print('Fetching ' + str(data[i][0]) + ' ' + str(data[i][1]) + ' at i=' + str(i) + ':  ' + str(data[i][2]))
+#    try:
+#        urllib.request.urlretrieve("https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/" + str(data[i][3]) + "/2016/260x190/" + str(data[i][2]) +".png", str(data[i][2])+".png")
+#    except:
+#        print('Error at i=' +str(i))
+#        errors.append(i)
     
 #let events = gameData.events.map(a => a.moments.map(b => b[5]));
 #    //console.log('Total number of events: ' + events.length);
