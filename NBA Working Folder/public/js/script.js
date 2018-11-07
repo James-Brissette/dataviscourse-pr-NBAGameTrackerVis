@@ -12,10 +12,11 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     teams['htm'] = gameData.teams.home;
     teams['vtm'] = gameData.teams.visitor;
 
-    teamDisplays = new Team(teams);
+	teamDisplays = "";
+    //teamDisplays = new Team(teams);
     court = new Court(gameData, players, teams, teamDisplays);
-    court.drawPlayers()
-    let draw = true
+    court.drawPlayers();
+	let draw = true;
     let pause = true;
     let timer = d3.timer((elapsed) => {
         timerCallback(elapsed)

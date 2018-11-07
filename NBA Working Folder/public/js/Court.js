@@ -88,7 +88,7 @@ class Court{
         players
             .attr('cx', (d,i) => this.xScale(i * 2))
             .attr('cy',  (d,i) => this.yScale(i * 2))
-            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
+            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (10*d[5] + 12 + this.scaleEffect))
             .attr('fill', d => d[0] == -1 ? '#C00': 
                                (d[0] == teamA ? '#060' : '#006'));
         d3.select('#eventId').text("Event" + this.event);
@@ -105,7 +105,7 @@ class Court{
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
             .attr('cy', d => this.yScale(d[3]))
-            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect));
+			.attr('r', d => d[0] == -1 ? this.rScale(d[4]) : (10 * d[5] + 12 + this.scaleEffect));
             
         d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
 
