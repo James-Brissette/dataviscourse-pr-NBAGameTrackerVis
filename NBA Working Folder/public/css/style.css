@@ -53,20 +53,31 @@ svg {
     font-size: 30px;
     fill: white;
 }
-.activeRoster > rect, .activeRoster > text {
-    transform-origin: 15% 65%;
-    transform: translate(10px,-90px) rotate(270deg);
+.activeRoster > rect {
+    transform-origin: top left;
+    transform: translate(20px,175px) rotate(270deg);
 }
+.activeRoster > text {
+    transform-origin: top left;
+    transform: translate(40px,165px) rotate(270deg);
+}
+
+.benchRoster > rect {
+    transform-origin: top left;
+    transform: translate(20px,325px) rotate(270deg);
+}
+.benchRoster > text {
+    transform-origin: top left;
+    transform: translate(40px,260px) rotate(270deg);
+}
+
 #vtmActivePlayers, #htmActivePlayers {
     cursor: pointer;
 }
 #vtmBenchPlayers, #htmBenchPlayers {
     cursor: default;
 }
-.benchRoster > rect, .benchRoster > text {
-    transform-origin: 15% 65%;
-    transform: translate(10px,45px) rotate(270deg);
-}
+
 .benchRoster > rect {
     fill: red;
 }
@@ -178,80 +189,88 @@ h1 {
 .GSW {
     fill: #244789;
     stroke: #fbae2e;
+    stroke-width: 3;
 }
 .HOU {
-    fill: white;
-    stroke: black;
+    fill: #ee224a;
+    stroke: #852449;
 }
 .IND {
-    fill: white;
-    stroke: black;
+    fill: #272049;
+    stroke: #fec027;
 }
 .LAC {
-    fill: white;
-    stroke: black;
+    fill: #1f4ba0;
+    stroke: #fd0f2c;
 }
 .LAL {
-    fill: white;
-    stroke: black;
+    fill: #faa832;
+    stroke: #5f3188;
 }
 .MEM {
-    fill: white;
-    stroke: black;
+    fill: #3a84b1;
+    stroke: #30385f;
 }
 .MIA {
-    fill: white;
-    stroke: black;
+    fill: #99031E;
+    stroke: #F8A30B;
 }
 .MIL {
-    fill: white;
-    stroke: black;
+    fill: #014429;
+    stroke: #df2539;
 }
 .MIN {
-    fill: white;
-    stroke: black;
+    fill: #a0a5aa;
+    stroke: #0b040c;
 }
 .NYK {
-    fill: white;
-    stroke: black;
+    fill: #0064a5;
+    stroke: #f47b35;
 }
 .OKC {
-    fill: white;
-    stroke: black;
+    fill: #ffffff;
+    stroke: #313564;
 }
 .ORL {
-    fill: white;
-    stroke: black;
+    fill: #0E71BC;
+    stroke: #051218;
 }
 .PHI {
-    fill: white;
-    stroke: black;
+    fill: #fcfcfe;
+    stroke: #dd2135;
 }
 .PHX {
-    fill: white;
-    stroke: black;
+    fill: #f79230;
+    stroke: #59707a;
 }
 .POR {
-    fill: white;
-    stroke: black;
+    fill: #ef3a47;
+    stroke: #b4c4c9;
 }
 .SAC {
-    fill: white;
-    stroke: black;
+    fill: #3e419a;
+    stroke: #a0a5aa;
 }
 .SAS {
-    fill: white;
-    stroke: black;
+    fill: #b0bec0;
+    stroke: #18081a;
 }
 .TOR {
-    fill: white;
-    stroke: black;
+    fill: #ee274e;
+    stroke: #161212;
 }
 .UTA {
-    fill: white;
-    stroke: black;
+    /* fill: url(#uta-gradient); */
+    stroke: #faa819;
+    fill: #004f30;
+    stroke-width: 3;
 }
 .WAS {
-    fill: white;
-    stroke: black;
+    fill: #ee2c45;
+    stroke: #2b2f61;
+}
+
+.ball {
+    fill: #000;
+    /* fill: url(#basketball); */
 }

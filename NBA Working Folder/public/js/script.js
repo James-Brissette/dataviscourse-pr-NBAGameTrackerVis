@@ -33,9 +33,9 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     court.drawPlayers()
     let draw = true
     let pause = true;
-    /* let timer = d3.timer((elapsed) => {
+    let timer = d3.timer((elapsed) => {
         timerCallback(elapsed)
-    }); */
+    });
 
     
     //Simple Pause by clicking on the court

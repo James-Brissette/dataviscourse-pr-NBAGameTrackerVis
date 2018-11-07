@@ -69,6 +69,31 @@
         </div>
     </div> 
 
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+        <linearGradient id='uta-gradient' x2="1" y2="1">
+          <stop offset="0%" stop-color="#f7d70d" />
+          <stop offset="16%" stop-color="#fda33b" />
+          <stop offset="31%" stop-color="#fd843c" />
+          <stop offset="47%" stop-color="#ff553c" />
+          <stop offset="61%" stop-color="#d33027" />
+          <stop offset="74%" stop-color="#7e2223" />
+          <stop offset="87%" stop-color="#682929" />
+          <stop offset="100%" stop-color="#391a1c" />
+        </linearGradient>
+    </svg>
+    <filter id="dropshadow" height="130%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> <!-- stdDeviation is how much to blur -->
+        <feOffset dx="2" dy="2" result="offsetblur"/> <!-- how much to offset -->
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.5"/> <!-- slope is the opacity of the shadow -->
+        </feComponentTransfer>
+        <feMerge> 
+          <feMergeNode/> <!-- this contains the offset blurred image -->
+          <feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+        </feMerge>
+    </filter>
+    
+
 </div>
 <!-- Game Court -->
 <div id="court">
@@ -81,7 +106,14 @@
 <script type="application/javascript" src="public/js/script.js"></script>
 <!-- <script type="application/javascript" src="public/js/preprocess.js"></script> -->
 <script>
-
+d3.svg('./figs/svg-logos/MIA.svg').then(svg => {
+            let s = d3.select(svg).select('svg').classed('teamLogo',true)
+                .attr('width', 250 / 2)
+                .attr('height', 250 / 3)
+                .attr('x', 10)
+                .attr('y', 10)
+            d3.select('.test').node().appendChild(s.node());
+        });
 </script>
 
 </body>

@@ -49,7 +49,7 @@ class Team {
                 .attr('height', this.teamWidth / 3)
                 .attr('x', this.teamWidth / 4)
                 .attr('y', 10)
-            this.htm.node().appendChild(s.node());
+            this.htm.node().appendChild(s.node())
         });
 
         this.htm.append('text').classed('teamName',true)
@@ -150,26 +150,26 @@ class Team {
         let benchRosterBoxWidth = 170;
 
         activeRoster.append('rect')
-            .attr('x', (this.teamWidth / 16) - 10)
-            .attr('y', this.teamWidth - (2*rosterBoxHeight/3))
+            .attr('x', -(activeRosterBoxWidth/2))
+            .attr('y', -(rosterBoxHeight/2))
             .attr('width',activeRosterBoxWidth)
             .attr('height', rosterBoxHeight)
             .attr('fill', '#aaa')
         activeRoster.append('text')
-            .attr('x', this.teamWidth / 16)
-            .attr('y', this.teamWidth)
+            .attr('x', -(activeRosterBoxWidth/2))
+            .attr('y', -(rosterBoxHeight/2))
             .text('Active Roster')
         
 
         let benchPlayers = d3.selectAll('.benchRoster')
         benchPlayers.append('rect')
-            .attr('x', (this.teamWidth / 16) - (benchRosterBoxWidth / 3))
-            .attr('y', this.teamWidth - (2*rosterBoxHeight/3))
-            .attr('width',benchRosterBoxWidth)
+            .attr('x', -(benchRosterBoxWidth/2))
+            .attr('y', -(rosterBoxHeight/2))
+            .attr('width', benchRosterBoxWidth)
             .attr('height', rosterBoxHeight)
         benchPlayers.append('text')
-            .attr('x', (this.teamWidth / 16) + 5)
-            .attr('y', this.teamWidth)
+            .attr('x', -(benchRosterBoxWidth/2))
+            .attr('y', -(rosterBoxHeight/2))
             .text('Bench')
 
 

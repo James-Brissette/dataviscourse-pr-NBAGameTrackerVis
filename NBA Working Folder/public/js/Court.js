@@ -40,6 +40,8 @@ class Court{
         this.xScale;
         this.yScale;
         this.rScale;
+
+        this.dropShadow();
     }
 
     drawPlayers() {
@@ -89,8 +91,10 @@ class Court{
             .attr('cx', (d,i) => this.xScale(i * 2))
             .attr('cy',  (d,i) => this.yScale(i * 2))
             .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
-            .attr('fill', d => d[0] == -1 ? '#C00': 
-                               (d[0] == teamA ? '#060' : '#006'));
+            .attr('class', d => d[0] == -1 ? 'ball': 
+                               (d[0] == teamA ? 'GSW' : 'UTA'))
+            .style("filter", "url(#drop-shadow)");
+
         d3.select('#eventId').text("Event" + this.event);
 
         console.log(this.moments[0].map(a => a[1]).slice(1,11));
@@ -110,8 +114,9 @@ class Court{
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
             .attr('cy', d => this.yScale(d[3]))
-            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect));
-            
+            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
+            .style("filter", d => d[0] == -1 ? '' : "url(#drop-shadow)");
+
         d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
 
         this.moment++;
@@ -130,5 +135,56 @@ class Court{
         this.moment = 0;
     }
     
+    dropShadow() {
+        let defs = this.svg.append('defs');
+
+        // create filter with id #drop-shadow
+        // height=130% so that the shadow is not clipped
+        let filter = defs.append('filter')
+            .attr('id', 'drop-shadow')
+            .attr('height', '130%');
+
+        // SourceAlpha refers to opacity of graphic that this filter will be applied to
+        // convolve that with a Gaussian with standard deviation 3 and store result
+        // in blur
+        filter.append('feGaussianBlur')
+            .attr('in', 'SourceAlpha')
+            .attr('stdDeviation', 1)
+            .attr('result', 'offsetblur');
+
+        // translate output of Gaussian blur to the right and downwards with 2px
+        // store result in offsetBlur
+        filter.append('feOffset')
+            .attr('in', 'blur')
+            .attr('dx', .1)
+            .attr('dy', .1)
+            .attr('result', 'offsetBlur');
+
+        filter.append('feComponentTransfer').append('feFuncA')
+            .attr('type', 'linear')
+            .attr('slope', 1)
+
+        // overlay original SourceGraphic over translated blurred opacity by using
+        // feMerge filter. Order of specifying inputs is important!
+        let feMerge = filter.append('feMerge');
+
+        feMerge.append('feMergeNode')
+            .attr('in', 'offsetBlur')
+        feMerge.append('feMergeNode')
+            .attr('in', 'SourceGraphic');
+
+        let pattern = defs.append('pattern')
+            .attr('id','#basketball')
+            .attr('height','100%')
+            .attr('x',0)
+            .attr('y',0)
+            .attr('patternUnits','userSpaceOnUse')
+
+        pattern.append('image')
+            .attr('x',0)
+            .attr('y',0)
+            .attr('xlink:href', '../../figs/basketball.png');
+        
+    }
 
 }
