@@ -181,38 +181,47 @@ h1 {
 .ATL {
     fill: #ef3748;
     stroke: #2c2f61;
+    stroke-width:3;
 }
 .BKN {
     fill: #c3c5bd;
     stroke: #2e2c61;
+    stroke-width:3;
 }
 .BOS {
     fill: #008d4c;
     stroke: #111623;
+    stroke-width:3;
 }
 .CHA {
     fill: #058ba6;
     stroke: #272360;
+    stroke-width:3;
 }
 .CHI {
     fill: #ee2844;
     stroke: black;
+    stroke-width:3;
 }
 .CLE {
     fill: #880C36;
     stroke: #F7BB2F;
+    stroke-width:3;
 }
 .DAL {
     fill: #F7BB2F;
     stroke: #afc1c6;
+    stroke-width:3;
 }
 .DEN {
     fill: #f9a01b;
     stroke: #006991;
+    stroke-width:3;
 }
 .DET {
     fill: #ee2e55;
     stroke: #05a2d2;
+    stroke-width:3;
 }
 .GSW {
     fill: #244789;
@@ -222,70 +231,87 @@ h1 {
 .HOU {
     fill: #ee224a;
     stroke: #852449;
+    stroke-width:3;
 }
 .IND {
     fill: #272049;
     stroke: #fec027;
+    stroke-width:3;
 }
 .LAC {
     fill: #1f4ba0;
     stroke: #fd0f2c;
+    stroke-width:3;
 }
 .LAL {
     fill: #faa832;
     stroke: #5f3188;
+    stroke-width:3;
 }
 .MEM {
     fill: #3a84b1;
     stroke: #30385f;
+    stroke-width:3;
 }
 .MIA {
     fill: #99031E;
     stroke: #F8A30B;
+    stroke-width:3;
 }
 .MIL {
     fill: #014429;
     stroke: #df2539;
+    stroke-width:3;
 }
 .MIN {
     fill: #a0a5aa;
     stroke: #0b040c;
+    stroke-width:3;
 }
 .NYK {
     fill: #0064a5;
     stroke: #f47b35;
+    stroke-width:3;
 }
 .OKC {
     fill: #ffffff;
     stroke: #313564;
+    stroke-width:3;
 }
 .ORL {
     fill: #0E71BC;
     stroke: #051218;
+    stroke-width:3;
 }
 .PHI {
     fill: #fcfcfe;
     stroke: #dd2135;
+    stroke-width:3;
 }
 .PHX {
     fill: #f79230;
     stroke: #59707a;
+    stroke-width:3;
 }
 .POR {
     fill: #ef3a47;
     stroke: #b4c4c9;
+    stroke-width:3;
 }
 .SAC {
     fill: #3e419a;
     stroke: #a0a5aa;
+    stroke-width:3;
 }
 .SAS {
     fill: #b0bec0;
     stroke: #18081a;
+    stroke-width:3;
 }
 .TOR {
     fill: #ee274e;
     stroke: #161212;
+    stroke-width:3;
 }
 .UTA {
     /* fill: url(#uta-gradient); */
@@ -296,9 +322,11 @@ h1 {
 .WAS {
     fill: #ee2c45;
     stroke: #2b2f61;
+    stroke-width:3;
 }
 
 .ball {
     fill: #000;
     /* fill: url(#basketball); */
+    stroke-width:3;
 }
