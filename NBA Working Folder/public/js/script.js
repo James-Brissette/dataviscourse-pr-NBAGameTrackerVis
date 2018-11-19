@@ -1,6 +1,7 @@
 
 let court;
 let teamDisplays; 
+let playerCard;
 
 gameNumber = ('00' + 434).substr(-3);
 d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
@@ -41,6 +42,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
         timerCallback(elapsed)
     });
 
+    playerCard = new PlayerCard();
     
     //Simple Pause by clicking on the court
     d3.select('.court').on('click', function () {

@@ -54,7 +54,8 @@ svg {
 .teamName {
     text-anchor: middle;
     font-size: 30px;
-    fill: white;
+    fill: rgba(255, 255, 255, .1);
+    transform: translate(0px,10px);
 }
 .icon-highlight {
     position: absolute;
@@ -180,6 +181,18 @@ h1 {
     stroke:black;
 }
 
+.playerCard {
+    position: relative;
+    width: 20%;
+    border: 3px solid green;
+}
+
+.playerCard > svg {
+    position: absolute;
+    fill: white;
+    top: 0;
+    left: 0;
+}
 
 /* Player Colors */
 .ATL {

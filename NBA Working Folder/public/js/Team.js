@@ -58,11 +58,11 @@ class Team {
 
         this.htm.append('text').classed('teamName',true)
             .attr('x', this.teamWidth / 2)
-            .attr('y', 180)
+            .attr('y', 160)
             .text(this.teams.htm.abbreviation)
         this.vtm.append('text').classed('teamName',true)
             .attr('x', this.teamWidth / 2)
-            .attr('y', 180)
+            .attr('y', 160)
             .text(this.teams.vtm.abbreviation)
 
     }
