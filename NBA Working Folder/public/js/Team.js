@@ -17,14 +17,18 @@ class Team {
 
         this.teamBounds = d3.select('.team').node().getBoundingClientRect();
         this.teamWidth = this.teamBounds.width;
-        this.teamHeight = this.teamBounds.height;
+        this.teamHeight = d3.select('.courtPNG').node().getBoundingClientRect().height;
 
         this.htm
-            .attr('width',this.teamWidth)
-            .attr('height',this.teamHeight)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + this.teamWidth + " " + this.teamHeight)
+            /* .attr('width',this.teamWidth)
+            .attr('height',this.teamHeight) */
         this.vtm
-            .attr('width',this.teamWidth)
-            .attr('height',this.teamHeight)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + this.teamWidth + " " + this.teamHeight)
+            /* .attr('width',this.teamWidth)
+            .attr('height',this.teamHeight) */
 
         this.drawLogos();
         this.drawPlayers();
@@ -76,8 +80,8 @@ class Team {
 
         let activeRoster = d3.selectAll('.activeRoster')
         let rosterBoxHeight = 30;
-        let activeRosterBoxWidth = 110;
-        let benchRosterBoxWidth = 170;
+        let activeRosterBoxWidth = 140;
+        let benchRosterBoxWidth = 210;
 
         activeRoster.append('rect')
             .attr('x', -(activeRosterBoxWidth/2))
@@ -171,23 +175,23 @@ class Team {
         htmActive
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
-            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
         htmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
-            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
 
         vtmActive
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
-            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
         vtmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
-            .attr('y', (d,i) => 10 + 20 * i)
+            .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
     }
     

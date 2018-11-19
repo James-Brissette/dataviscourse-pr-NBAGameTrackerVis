@@ -12,10 +12,12 @@ class Court{
         this.scaleEffect = this.courtWidth > 950 ? 4 : (this.courtWidth > 750 ? 2 : 0);
         this.svg = d3.select('.court').select('.overlay')
         this.svg
-            .attr('width',this.courtWidth)
-            .attr('height',this.courtHeight)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + this.courtWidth + " " + this.courtHeight)
+            /* .attr('width',this.courtWidth)
+            .attr('height',this.courtHeight) */
             //.attr('transform','translate(-' + this.courtWidth + ',0)')
-            .attr('transform','translate(0,' + -this.courtHeight+ ')')
+            /* .attr('transform','translate(0,' + -this.courtHeight+ ')') */
 
         this.svg.append('text').attr('id','eventId')
             .attr('x', this.courtWidth / 2)

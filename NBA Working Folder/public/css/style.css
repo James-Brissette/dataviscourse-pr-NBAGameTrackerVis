@@ -5,6 +5,8 @@ body {
 
 .overlay {
     position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .overlay circle {
@@ -17,6 +19,7 @@ svg {
 }
 
 .court {
+    position: relative;
     width: 58%;
     float:left;
     border: 1px solid #aaa;
@@ -38,11 +41,11 @@ svg {
 }
 
 .team {
-    display: inline-block;
+    position: relative;
+    float: left;
     width:20%;
     /*Keeping height for display purposes. Inline-Block will eliminate need for this
     once it's populated with visualizations */
-    height:485px;
     border: 1px solid #aaa;
 }
 .team svg {
@@ -64,7 +67,7 @@ svg {
 
 .activeRoster > rect {
     transform-origin: top left;
-    transform: translate(20px,245px) rotate(270deg);
+    transform: translate(20px,255px) rotate(270deg);
     cursor: default;
 }
 .activeRoster > text {
@@ -75,22 +78,22 @@ svg {
 
 .benchRoster > rect {
     transform-origin: top left;
-    transform: translate(20px,395px) rotate(270deg);
+    transform: translate(20px,465px) rotate(270deg);
     cursor: default;
 }
 .benchRoster > text {
     transform-origin: top left;
-    transform: translate(40px,330px) rotate(270deg);
+    transform: translate(40px,380px) rotate(270deg);
     cursor: default;
 }
 
 #vtmActivePlayers, #htmActivePlayers {
-    font-size: 20px;
+    font-size: 25px;
     cursor: pointer;
     fill: #fff;
 }
 #vtmBenchPlayers, #htmBenchPlayers {
-    font-size: 20px;
+    font-size: 25px;
     cursor: default;
     fill: #fff;
 }
@@ -105,6 +108,7 @@ svg {
 }
 #htm {
     float:right;
+    position: relative;
 }
 #htm image {
 }
