@@ -1,4 +1,6 @@
+   
 body {
+    font-family: 'Roboto Condensed', 'Helvetica', 'Arial', sans-serif;
     background-image: url('../../figs/nba_webBG.jpg');
     background-size: cover;
 }
@@ -29,7 +31,6 @@ svg {
 .courtPNG {
     display: inline-block;
     width: 100%;
-
 }
 
 .frame {
@@ -185,13 +186,59 @@ h1 {
     position: relative;
     width: 20%;
     border: 3px solid green;
+    max-width: 320px;
 }
 
 .playerCard > svg {
     position: absolute;
-    fill: white;
+    fill: rgba(255,255,255,.5);
     top: 0;
     left: 0;
+}
+
+.playerCard > svg > g {
+    fill: black;
+}
+
+.nameBlock {
+    border: 1px solid red;
+}
+
+.teamBlock {
+    border: 1px solid red;
+    font-size: 20px;
+}
+
+.playerCardPosition {
+    /* transform: translate(60px,10px) */
+}
+
+.playerCardTeam {
+    /* transform: translate(75px,10px) */
+}
+.playerCardNumber {
+    font-size: 60px;
+    /* transform: translate(0px,25px) */
+}
+
+.playerCardFirstName {
+    font-size: 25px;
+    /* transform: translate(95px,0px) */
+}
+
+.playerCardLastName {
+    font-size: 25px;
+    font-weight: bold;
+    /* transform: translate(95px,25px) */
+}
+
+.playerPhoto {
+}
+
+.playerCardLogo {
+    position: absolute;
+    top: -20px;
+    left: -20px;
 }
 
 /* Player Colors */
