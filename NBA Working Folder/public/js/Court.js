@@ -3,7 +3,8 @@ class Court{
         this.gameData = gameData;
         this.players = players;
         this.teams = teams;
-        this.teamDisplays = teamDisplays;
+		this.teamDisplays = teamDisplays;
+		this.coloredPlayers = [];
         
         this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
 
@@ -103,24 +104,37 @@ class Court{
         let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
         this.teamDisplays.updateActivePlayers(activePlayerList)
         this.teamDisplays.linkToCourt(this);
-    }
+	}
+
+	heatmapColor(data) {
+		for (let i = 0; i < this.coloredPlayers.length; i++) {
+			if (this.coloredPlayers[i][0] == data[1]) {
+				return this.coloredPlayers[i][1];
+			}
+		}
+		return 'transparent';
+	}
 
     update() {
         if (this.moment > this.moments.length - 1) {
             console.log('Moments exhausted')
             this.loadEvent();
             return;
-        }
+		}
+		//TODO: The heatmap should be moved to its own type of view, it's too laggy for realtime
 		this.curHeatmap = this.curHeatmap.concat(this.moments[this.moment]);
-		let heatmapSquares = this.svg.selectAll('rect').data(this.curHeatmap).enter().append('rect');
-		heatmapSquares
+		let heatmapSquares = this.svg.selectAll('rect').data(this.curHeatmap);
+		heatmapSquares.exit().remove();
+		heatmapSquares.enter().append('rect')
 			.attr('x', d => this.xScale(d[2]))
 			.attr('y', d => {
 				return this.yScale(d[3]);
 			})
 			.attr('width', 1)
 			.attr('height', 1)
-			.attr('fill', 'green');
+			.attr('class',  d => 'name' + d[1])
+			.attr('fill', d => this.heatmapColor(d));
+		
         let players = this.svg.selectAll('circle')
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
@@ -133,6 +147,7 @@ class Court{
         this.moment++;
     }
 
+
     loadEvent() {
         this.event++;
         console.log('Loading event ' + this.event);
@@ -144,8 +159,23 @@ class Court{
 
         this.moments = this.events.map(a => a.moments.map(b => b['4']))[this.event];
         this.moment = 0;
-    }
-    
+	}
+
+	selectPlayer(playerid, color) {
+		this.coloredPlayers.push([playerid, color]);
+		this.svg.selectAll('.name' + playerid).attr('fill', color);
+	}
+
+	removePlayer(playerid) {
+		this.svg.selectAll('.name' + playerid).attr('fill', 'transparent');
+		for (let i = 0; i < this.coloredPlayers.length; i++) {
+			if (this.coloredPlayers[i][0] === playerid) {
+				this.coloredPlayers.splice(i, 1);
+				return;
+			}
+		}
+	}
+
     dropShadow() {
         let defs = this.svg.append('defs');
 

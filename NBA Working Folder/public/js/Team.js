@@ -1,6 +1,9 @@
 class Team {
     constructor(teams) {
-        this.court;
+		this.court;
+		this.colors = ['rgb(57, 106, 177)', 'rgb(62, 150, 81)', 'rgb(204, 37, 41)', 'rgb(83, 81, 87)', 'rgb(107, 76, 154)'];
+		this.selectedColors = [0, 0, 0, 0, 0];
+		this.nextColorIdx = 0;
         this.teams = teams;
         console.log(this.teams);
         d3.select('#htm').select('svg').remove();
@@ -30,9 +33,6 @@ class Team {
         this.drawPlayers();
 	}
 
-	setCourt(court) {
-		this.court = court;
-	}
 
     drawLogos() {
         let htmLogoAbbreviation = this.teams.htm.abbreviation;
@@ -83,12 +83,13 @@ class Team {
         let activeRosterBoxWidth = 110;
         let benchRosterBoxWidth = 170;
 
-        activeRoster.append('rect')
-            .attr('x', -(activeRosterBoxWidth/2))
-            .attr('y', -(rosterBoxHeight/2))
-            .attr('width',activeRosterBoxWidth)
-            .attr('height', rosterBoxHeight)
-            .attr('fill', '#aaa')
+		activeRoster.append('rect')
+			.attr('x', -(activeRosterBoxWidth / 2))
+			.attr('y', -(rosterBoxHeight / 2))
+			.attr('width', activeRosterBoxWidth)
+			.attr('height', rosterBoxHeight)
+			.attr('fill', '#aaa')
+
         activeRoster.append('text')
             .attr('x', -(activeRosterBoxWidth/2))
             .attr('y', -(rosterBoxHeight/2))
@@ -123,7 +124,40 @@ class Team {
             .attr('transform','translate(0,'+ (200 + activeRosterBoxWidth + 15) + ')')
         
         this.updateActivePlayers([]);
-    }
+	}
+
+	nextColor(playerid) {
+		for (let i = 0; i < this.selectedColors.length; i++) {
+			// If we already are being displayed, remove this selection
+			if (this.selectedColors[i] === playerid) {
+				this.selectedColors[i] = 0;
+				d3.selectAll('.name' + playerid).attr('fill', 'white');
+				this.court.removePlayer(playerid);
+				return -1;
+			}
+		}
+		for (let i = 0; i < this.selectedColors.length; i++) {
+			if (this.selectedColors[i] === 0) {
+				this.selectedColors[i] = playerid;
+				d3.selectAll('.name' + playerid).attr('fill', this.colors[i]);
+				return this.colors[i];
+			}
+		}
+
+		this.court.removePlayer(this.selectedColors[this.nextColorIdx]);
+		this.htm.selectAll('.name' + this.selectedColors[this.nextColorIdx]).attr('fill', 'white');
+		this.vtm.selectAll('.name' + this.selectedColors[this.nextColorIdx]).attr('fill', 'white');
+
+		this.selectedColors[this.nextColorIdx] = playerid;
+
+		let ret = this.colors[this.nextColorIdx];
+		d3.selectAll('.name' + playerid).attr('fill', ret);
+
+		this.nextColorIdx += 1;
+		this.nextColorIdx %= this.selectedColors.length;
+
+		return ret;
+	}
 
     updateActivePlayers(activeList) {
         /**
@@ -146,9 +180,18 @@ class Team {
             }
         })
 
-        let htmActive = d3.select('#htmActivePlayers')
-                        .selectAll('text').data(this.teams.htm.players.filter(d => { return d.active == true }))
-        let htmActiveEnter = htmActive.enter().append('text');
+		let htmActive = d3.select('#htmActivePlayers')
+			.selectAll('text').data(this.teams.htm.players.filter(d => { return d.active == true }))
+			
+		let htmActiveEnter = htmActive.enter().append('text')
+			.attr('class', d => 'name' + d.playerid)
+			.on('click', d => {
+				let color = this.nextColor(d.playerid);
+				if (color == -1) {
+					return;
+				}
+				this.court.selectPlayer(d.playerid, color);
+			});
         htmActive.exit().remove();
         htmActive = htmActiveEnter.merge(htmActive);
 
@@ -161,7 +204,15 @@ class Team {
 
         let vtmActive = d3.select('#vtmActivePlayers')
                         .selectAll('text').data(this.teams.vtm.players.filter(d => { return d.active == true }))
-        let vtmActiveEnter = vtmActive.enter().append('text');
+		let vtmActiveEnter = vtmActive.enter().append('text')
+			.attr('class', d => 'name' + d.playerid)
+			.on('click', d => {
+				let color = this.nextColor(d.playerid);
+				if (color == -1) {
+					return;
+				}
+				this.court.selectPlayer(d.playerid, color);
+			});
         vtmActive.exit().remove();
         vtmActive = vtmActiveEnter.merge(vtmActive);
 

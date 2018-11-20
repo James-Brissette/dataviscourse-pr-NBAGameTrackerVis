@@ -34,10 +34,8 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
 
     teamDisplays = new Team(teams);
 	court = new Court(gameData, players, teams, teamDisplays);
-	//TODO: Fix this weird cross dependency?
-	teamDisplays.setCourt(court);
-    court.drawPlayers()
-    let draw = true
+	court.drawPlayers();
+	let draw = true;
     let pause = true;
     let timer = d3.timer((elapsed) => {
         timerCallback(elapsed)
