@@ -123,7 +123,13 @@ class Court{
 		}
 		//TODO: The heatmap should be moved to its own type of view, it's too laggy for realtime
 		this.curHeatmap = this.curHeatmap.concat(this.moments[this.moment]);
-		let heatmapSquares = this.svg.selectAll('rect').data(this.curHeatmap);
+		let heatmapSquares = [];
+		if (this.coloredPlayers.length == 0) {
+			heatmapSquares = this.svg.selectAll('rect').data([]);
+		}
+		else {
+			heatmapSquares = this.svg.selectAll('rect').data(this.curHeatmap);
+		}
 		heatmapSquares.exit().remove();
 		heatmapSquares.enter().append('rect')
 			.attr('x', d => this.xScale(d[2]))
