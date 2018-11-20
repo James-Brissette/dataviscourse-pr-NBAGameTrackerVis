@@ -28,7 +28,11 @@ class Team {
 
         this.drawLogos();
         this.drawPlayers();
-    }
+	}
+
+	setCourt(court) {
+		this.court = court;
+	}
 
     drawLogos() {
         let htmLogoAbbreviation = this.teams.htm.abbreviation;

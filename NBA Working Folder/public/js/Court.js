@@ -40,7 +40,7 @@ class Court{
         this.xScale;
         this.yScale;
         this.rScale;
-
+		this.curHeatmap;
         this.dropShadow();
     }
 
@@ -52,6 +52,8 @@ class Court{
         //Take the max value from an array of the max values of each player at each moment.
         //Math.max(...xVals.map(a => Math.max(...a)))
         //Math.max(...test.map(event => Math.max(...event.map(moment => moment.map(player => player[2])).map(playerPos => Math.max(...playerPos)))))
+
+		this.curHeatmap = this.moments[0];
 
         let courtX = this.courtWidth / 16;
         let courtY = this.courtHeight / 11;
@@ -109,7 +111,16 @@ class Court{
             this.loadEvent();
             return;
         }
-        
+		this.curHeatmap = this.curHeatmap.concat(this.moments[this.moment]);
+		let heatmapSquares = this.svg.selectAll('rect').data(this.curHeatmap).enter().append('rect');
+		heatmapSquares
+			.attr('x', d => this.xScale(d[2]))
+			.attr('y', d => {
+				return this.yScale(d[3]);
+			})
+			.attr('width', 1)
+			.attr('height', 1)
+			.attr('fill', 'green');
         let players = this.svg.selectAll('circle')
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
