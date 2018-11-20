@@ -12,10 +12,14 @@ class Team {
         this.vtm = d3.select('#vtm').append('svg')
 
         this.headerBounds = d3.select('.header').node().getBoundingClientRect()
+        d3.select('.header').select('svg')
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + this.headerBounds.width + " " + this.headerBounds.height)
+
         d3.select('#headerText')
+            .text(this.teams.vtm.name + ' @ ' + this.teams.htm.name)
             .attr('x', this.headerBounds.width / 2)
             .attr('y', this.headerBounds.height / 1.5)
-            .text(this.teams.vtm.name + ' @ ' + this.teams.htm.name)
 
         this.teamBounds = d3.select('.team').node().getBoundingClientRect();
         this.teamWidth = this.teamBounds.width;
@@ -32,8 +36,33 @@ class Team {
             /* .attr('width',this.teamWidth)
             .attr('height',this.teamHeight) */
 
+        this.vtm_tip = d3.tip().attr('class', 'd3-tip')
+			.direction('e')
+			.offset(function() {
+				return ([0,0]);
+            })
+            .html((d) => { 
+                return this.playerCard.updatePlayer(d);
+            });
+        
+        this.htm_tip = d3.tip().attr('class', 'd3-tip')
+			.direction('w')
+			.offset(function() {
+				return ([0,0]);
+            })
+            .html((d) => { 
+                return this.playerCard.updatePlayer(d);
+            });
+
         this.drawLogos();
         this.drawPlayers();
+    }
+
+    removeVtmTip() {
+        return this.vtm_tip.hide
+    }
+    removeHtmTip() {
+        return this.htm_tip.hide
     }
 
     drawLogos() {
@@ -124,6 +153,10 @@ class Team {
             .attr('id', 'vtmBenchPlayers')
             .attr('transform','translate(0,'+ (200 + activeRosterBoxWidth + 15) + ')')
         
+
+        /* this.htm.call(this.htm_tip);
+        this.vtm.call(this.vtm_tip); */
+
         this.updateActivePlayers([]);
     }
 
@@ -132,7 +165,8 @@ class Team {
          * Takes in a list of player id's and updates the active status of 
          * the corresponding players on the court;
          */
-
+        
+        
         this.teams.htm.players.forEach(player => {
             if (activeList.indexOf(player.playerid) == -1) {
                 player.active = false;
@@ -173,13 +207,23 @@ class Team {
         vtmBench.exit().remove();
         vtmBench = vtmBenchEnter.merge(vtmBench);
         
-
+        console.log(htmActive)
         htmActive
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
+            .attr('class', d => 'p'+ d.playerid)
             .on('click', d => this.playerCard.updatePlayer(d))
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selected',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selected',false)
+            })
+            /* .on('mouseenter', this.htm_tip.show)
+             .on('mouseenter', this.htm_tip.hide) */
+
         htmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
@@ -193,20 +237,22 @@ class Team {
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
             .on('click', d => this.playerCard.updatePlayer(d))
+
         vtmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
             .on('click', d => this.playerCard.updatePlayer(d))
+
+            let that = this;
+        this.htm_tip.html((d) => { 
+                return ''+ that.playerCard.updatePlayer(d);
+            });
     }
     
     linkToCourt(court) {
         this.court = court;
-    }
-
-    linkToCard(card) {
-        this.card = card;
     }
 
 }

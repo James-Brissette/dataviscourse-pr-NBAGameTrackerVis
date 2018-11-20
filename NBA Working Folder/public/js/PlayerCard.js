@@ -14,6 +14,8 @@ class PlayerCard{
         this.cardWidth = this.svg.node().getBoundingClientRect().width;
         this.playerPhotoWidth = this.cardWidth * (3/4);
 
+        this.teamLogo = this.svg.append('g').classed('playerCardLogo',true);
+
         this.playerPhoto = this.svg.append('g').classed('playerPhoto',true).append('image');
         this.photoWidth = 260;
         this.photoHeight = 190;
@@ -27,7 +29,8 @@ class PlayerCard{
         this.playerCardPosition = this.teamBlock.append('text').classed('playerCardPosition', true);
         this.playerCardDivider = this.teamBlock.append('text').classed('playerCardDivider', true);
         this.playerCardTeam = this.teamBlock.append('text').classed('playerCardTeam', true);
-    
+
+          
         
     }
 
@@ -67,39 +70,48 @@ class PlayerCard{
             .attr('text-anchor','start')
             .attr('font-size', playerData.firstname.length > 11 ? 22 : 25)
 
-        let nameBlockWidth = this.nameBlock.node().getBoundingClientRect().width;
         this.nameBlock
-            .attr('transform','translate(' + (50% - (nameBlockWidth / 2)) + ',' + (this.photoHeight + 65) + ')')
+            .attr('transform','translate(' + ((this.cardWidth - this.nameBlock.node().getBBox().width)/2) + ',' + (this.photoHeight + 65) + ')')
 
 
         /* this.playerCardLogo = this.teamBlock.append('svg').classed('playerCardLogo', true) */
         
         this.playerCardPosition
             .text(playerData.position)
-            .attr('x', 70)
+            .attr('x', 0)
             .attr('y', 5)
-        let teamBlockPosPadding = this.playerCardPosition.node().getBoundingClientRect().width;
+        let teamBlockPosPadding = this.playerCardPosition.node().getBBox().width;
+        console.log()
         this.playerCardDivider
             .text(' | ')
-            .attr('x', teamBlockPosPadding + 75)
+            .attr('x', teamBlockPosPadding + 5)
             .attr('y', 5)
             .attr('font-size',25)
-        let teamBlockDivPadding = this.playerCardDivider.node().getBoundingClientRect().width;
+        let teamBlockDivPadding = this.playerCardDivider.node().getBBox().width;
         this.playerCardTeam
             .text(playerData.team)
-            .attr('x', teamBlockPosPadding + teamBlockDivPadding + 80)
-            .attr('y', 5)
-        this.teamBlock.selectAll('svg').remove();
-        d3.svg('./figs/svg-logos/nba/' + playerData.abbreviation + '.svg').then(svg => {
-            let s = d3.select(svg).select('svg')
-                .attr('width', 60)
-                .attr('y','-45%');
-            this.teamBlock.node().appendChild(s.node());
-        });
+            .attr('x', teamBlockPosPadding + teamBlockDivPadding + 10)
+            .attr('y', 5)        
         
         this.teamBlock
-            .attr('transform','translate(' + (50% - this.teamBlock.node().getBoundingClientRect().width/2) + ',' + (this.photoHeight + 100) + ')')
+            .attr('transform','translate(' + ((this.cardWidth - this.teamBlock.node().getBBox().width)/2) + ',' + (this.photoHeight + 100) + ')')
 
+        this.teamLogo.selectAll('svg').remove();
+        d3.svg('./figs/svg-logos/nba/' + playerData.abbreviation + '.svg').then(svg => {
+            let s = d3.select(svg).select('svg')
+                .attr('width', 350)
+                .attr('y','-10%')
+                .attr('x',-25)
+                .attr('opacity',.25)
+
+        this.teamLogo.append('svg').node().appendChild(s.node());
+
+        
+        });
+
+        console.log();
+        let that = this;
+        return (d3.select('.playerCard')._groups[0][0].outerHTML)
     }
     
 

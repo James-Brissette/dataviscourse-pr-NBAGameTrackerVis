@@ -90,7 +90,8 @@ svg {
 }
 
 #vtmActivePlayers, #htmActivePlayers {
-    font-size: 25px;
+    /* font-size: 25px; */
+    font-size: 1.3vmax;
     cursor: pointer;
     fill: #fff;
 }
@@ -104,6 +105,9 @@ svg {
     fill: red;
 }
 
+.selected {
+    fill: red;
+}
 #vtm {
     float:left;
     position: relative;
@@ -184,20 +188,21 @@ h1 {
 
 .playerCard {
     position: relative;
-    width: 20%;
-    border: 3px solid green;
+    width: 300px;
+    border: 3px solid white;
     max-width: 320px;
+    height: 350px;
 }
 
 .playerCard > svg {
     position: absolute;
-    fill: rgba(255,255,255,.5);
+    fill: rgba(255,255,255,0);
     top: 0;
     left: 0;
 }
 
 .playerCard > svg > g {
-    fill: black;
+    fill: white;
 }
 
 .nameBlock {
@@ -236,12 +241,11 @@ h1 {
 .playerPhoto {
 }
 
-.playerCardLogo {
-    position: absolute;
-    top: -20px;
-    left: -20px;
+.playerCardLogo > svg {
+    /* filter: url(#grayscale); */
 }
 
+.team
 /* Player Colors */
 .ATL {
     fill: #ef3748;
