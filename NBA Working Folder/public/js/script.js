@@ -12,11 +12,16 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     
     teams['htm'] = gameData.teams.home;
     teams['vtm'] = gameData.teams.visitor;
+    
     teams.htm.players.forEach(player => {
         player['active'] = false;
+        player['team'] = teams.htm.name;
+        player['abbreviation'] = teams.htm.abbreviation;
     })
     teams.vtm.players.forEach(player => {
         player['active'] = false;
+        player['team'] = teams.vtm.name;
+        player['abbreviation'] = teams.vtm.abbreviation;
     })
 
     let s;
@@ -32,8 +37,9 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
             new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax);
         }
     });
-
-    teamDisplays = new Team(teams);
+    
+    playerCard = new PlayerCard();
+    teamDisplays = new Team(teams, playerCard);
     court = new Court(gameData, players, teams, teamDisplays);
     court.drawPlayers()
     let draw = true
@@ -42,8 +48,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
         timerCallback(elapsed)
     });
 
-    playerCard = new PlayerCard();
-    
+
     //Simple Pause by clicking on the court
     d3.select('.court').on('click', function () {
             if (pause) {

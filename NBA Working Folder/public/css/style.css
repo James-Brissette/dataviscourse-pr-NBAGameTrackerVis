@@ -205,6 +205,7 @@ h1 {
 }
 
 .teamBlock {
+    /* transform: translate(60px,100px); */
     border: 1px solid red;
     font-size: 20px;
 }
@@ -221,13 +222,13 @@ h1 {
     /* transform: translate(0px,25px) */
 }
 
-.playerCardFirstName {
-    font-size: 25px;
+.playerCardFirstName {/* 
+    font-size: 25px; */
     /* transform: translate(95px,0px) */
 }
 
 .playerCardLastName {
-    font-size: 25px;
+    /* font-size: 25px; */
     font-weight: bold;
     /* transform: translate(95px,25px) */
 }

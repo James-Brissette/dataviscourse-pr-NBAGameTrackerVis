@@ -28,15 +28,18 @@ class PlayerCard{
         this.playerCardDivider = this.teamBlock.append('text').classed('playerCardDivider', true);
         this.playerCardTeam = this.teamBlock.append('text').classed('playerCardTeam', true);
     
-        this.updatePlayer();
+        
     }
 
 
 
     updatePlayer(playerData) {
+        console.log(playerData)
 
+        
         let s = this.playerPhoto
-            .attr('xlink:href', './figs/playerHeadshots/202330.png')
+            .attr('xlink:href', './figs/playerHeadshots/' + playerData.playerid + '.png')
+            .attr('onerror','this.onerror=null;this.href="./figs/playerHeadshots/default.png";')
             .attr('width', this.photoWidth)
             /* .attr('height', svgWidth) */
             .attr('x', '50%')
@@ -45,21 +48,24 @@ class PlayerCard{
 
                 
         this.playerCardNumber
-            .text('#20')
+            .text('#' + playerData.jersey)
             .attr('x', 0)
             .attr('y', 0)
+            .attr('font-size',60)
 
         this.playerCardFirstName
-            .text('Gordon')
+            .text(playerData.firstname)
             .attr('x', '35%')
             .attr('y', -25)
             .attr('text-anchor','start')
+            .attr('font-size', playerData.firstname.length > 11 ? 22 : 25)
 
         this.playerCardLastName
-            .text('Hayward')
+            .text(playerData.lastname)
             .attr('x', '35%')
             .attr('y', 0)
             .attr('text-anchor','start')
+            .attr('font-size', playerData.firstname.length > 11 ? 22 : 25)
 
         let nameBlockWidth = this.nameBlock.node().getBoundingClientRect().width;
         this.nameBlock
@@ -69,7 +75,7 @@ class PlayerCard{
         /* this.playerCardLogo = this.teamBlock.append('svg').classed('playerCardLogo', true) */
         
         this.playerCardPosition
-            .text('F')
+            .text(playerData.position)
             .attr('x', 70)
             .attr('y', 5)
         let teamBlockPosPadding = this.playerCardPosition.node().getBoundingClientRect().width;
@@ -80,11 +86,11 @@ class PlayerCard{
             .attr('font-size',25)
         let teamBlockDivPadding = this.playerCardDivider.node().getBoundingClientRect().width;
         this.playerCardTeam
-            .text('Utah Jazz')
+            .text(playerData.team)
             .attr('x', teamBlockPosPadding + teamBlockDivPadding + 80)
             .attr('y', 5)
         this.teamBlock.selectAll('svg').remove();
-        d3.svg('./figs/svg-logos/nba/UTA.svg').then(svg => {
+        d3.svg('./figs/svg-logos/nba/' + playerData.abbreviation + '.svg').then(svg => {
             let s = d3.select(svg).select('svg')
                 .attr('width', 60)
                 .attr('y','-45%');
@@ -92,7 +98,7 @@ class PlayerCard{
         });
         
         this.teamBlock
-            .attr('transform','translate(60,' + (this.photoHeight + 100) + ')')
+            .attr('transform','translate(' + (50% - this.teamBlock.node().getBoundingClientRect().width/2) + ',' + (this.photoHeight + 100) + ')')
 
     }
     

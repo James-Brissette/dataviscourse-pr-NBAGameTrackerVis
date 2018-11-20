@@ -1,6 +1,8 @@
 class Team {
-    constructor(teams) {
+    constructor(teams, playerCard) {
         this.court;
+        this.playerCard = playerCard;
+
         this.teams = teams;
         console.log(this.teams);
         d3.select('#htm').select('svg').remove();
@@ -177,26 +179,34 @@ class Team {
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
+            .on('click', d => this.playerCard.updatePlayer(d))
         htmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
+            .on('click', d => this.playerCard.updatePlayer(d))
 
         vtmActive
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
+            .on('click', d => this.playerCard.updatePlayer(d))
         vtmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
+            .on('click', d => this.playerCard.updatePlayer(d))
     }
     
     linkToCourt(court) {
         this.court = court;
+    }
+
+    linkToCard(card) {
+        this.card = card;
     }
 
 }
