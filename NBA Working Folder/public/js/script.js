@@ -34,9 +34,16 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
             teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i]);
             yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
             stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
+            console.log(stat);
             new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax);
         }
     });
+
+    let statHeight = d3.select('#playerCardStats').node().getBoundingClientRect().height;
+    let cardDivHeight = d3.select('#playerCardDiv').node().getBoundingClientRect().height;
+    d3.select('#playerCardDiv')
+        .style('margin-top', ((statHeight - cardDivHeight)/2)+'px');
+
     
     playerCard = new PlayerCard();
     teamDisplays = new Team(teams, playerCard);

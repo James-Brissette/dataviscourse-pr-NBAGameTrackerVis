@@ -2,7 +2,7 @@
 body {
     font-family: 'Roboto Condensed', 'Helvetica', 'Arial', sans-serif;
     background-image: url('../../figs/nba_webBG.jpg');
-    background-size: cover;
+    background-size: auto;
 }
 
 .overlay {
@@ -105,8 +105,11 @@ svg {
     fill: red;
 }
 
-.selected {
-    fill: red;
+.selectedA {
+    fill: orange !important;
+}
+.selectedB {
+    fill: red !important;
 }
 
 circle.selected {
@@ -150,6 +153,24 @@ h1 {
     text-align: center;
 }
 
+.playerCardHolder {
+    position: relative;
+}
+#playerCardDiv {
+    position: relative;
+    border: 3px solid red;
+    width: 0%;
+    height: 400px;
+    opacity: 0;
+    float: left;
+}
+
+#playerCardStats {
+    position: relative;
+    float: left;
+    border: 3px solid red;
+    width: 99%;
+}
 .section {
     position: relative;
     display: inline-block;
@@ -196,7 +217,8 @@ h1 {
     width: 300px;
     border: 3px solid white;
     max-width: 320px;
-    height: 350px;
+    height: 99%;
+    margin: auto;
 }
 
 .playerCard > svg {

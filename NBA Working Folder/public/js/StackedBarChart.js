@@ -1,6 +1,10 @@
 class StackedBarChart{
     constructor(chartData, teams, svgID, statCol, yMax) {
-        this.chartData = chartData;
+        console.log(chartData)
+        this.chartData = chartData.sort(function(a,b) {
+            return a[3] - b[3]
+        });
+        console.log(this.chartData)
         this.teams = teams;
         
         this.chartBounds = d3.select('.summaryChart').node().getBoundingClientRect();
@@ -76,5 +80,4 @@ class StackedBarChart{
             })
 
     }
-
 }

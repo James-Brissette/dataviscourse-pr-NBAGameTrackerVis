@@ -56,6 +56,8 @@ class Team {
 
         this.drawLogos();
         this.drawPlayers();
+        this.playerIsActive = false;
+        this.selectedPlayer;
     }
 
     removeVtmTip() {
@@ -165,7 +167,7 @@ class Team {
          * Takes in a list of player id's and updates the active status of 
          * the corresponding players on the court;
          */
-        
+        let that = this;
         
         this.teams.htm.players.forEach(player => {
             if (activeList.indexOf(player.playerid) == -1) {
@@ -216,10 +218,13 @@ class Team {
             .attr('class', d => 'p'+ d.playerid)
             .on('click', d => this.playerCard.updatePlayer(d))
             .on('mouseenter', d => {
-                d3.selectAll('.p' + d.playerid).classed('selected',true)
+                d3.selectAll('.p' + d.playerid).classed('selectedA',true)
             })
             .on('mouseleave', d => {
-                d3.selectAll('.p' + d.playerid).classed('selected',false)
+                d3.selectAll('.p' + d.playerid).classed('selectedA',false)
+            })
+            .on('click', d => {
+                that.updatePlayerCard(d);
             })
             /* .on('mouseenter', this.htm_tip.show)
              .on('mouseenter', this.htm_tip.hide) */
@@ -237,12 +242,16 @@ class Team {
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
+            .attr('class', d => 'p' + d.playerid)
             .on('click', d => this.playerCard.updatePlayer(d))
             .on('mouseenter', d => {
-                d3.selectAll('.p' + d.playerid).classed('selected',true)
+                d3.selectAll('.p' + d.playerid).classed('selectedA',true)
             })
             .on('mouseleave', d => {
-                d3.selectAll('.p' + d.playerid).classed('selected',false)
+                d3.selectAll('.p' + d.playerid).classed('selectedA',false)
+            })
+            .on('click', d => {
+                that.updatePlayerCard(d);
             })
 
         vtmBench
@@ -250,9 +259,11 @@ class Team {
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
-            .on('click', d => this.playerCard.updatePlayer(d))
+            .on('click', d => {
+                that.updatePlayerCard(d);
+            })
+            /* .on('click', d => this.playerCard.updatePlayer(d)) */
 
-            let that = this;
         this.htm_tip.html((d) => { 
                 return ''+ that.playerCard.updatePlayer(d);
             });
@@ -260,6 +271,47 @@ class Team {
     
     linkToCourt(court) {
         this.court = court;
+    }
+
+    updatePlayerCard(d) {
+        this.playerCard.updatePlayer(d)
+            if (this.playerIsActive && this.selectedPlayer == d.playerid) {
+                d3.select('#playerCardDiv')
+                    .style('width', '24%')
+                    .transition()
+                    .duration(1000)
+                    .style('width', '0%')
+                    .style('opacity',0)
+                d3.select('#playerCardStats')
+                    .style('width', '74%')
+                    .transition()
+                    .duration(1000)
+                    .style('width', '99%')
+
+                d3.selectAll('.selectedB').classed('selectedB',false)
+                this.playerIsActive = false;
+                this.selectedPlayer = 0;
+
+            } else if (!this.playerIsActive) {
+                d3.select('#playerCardStats')
+                    .style('width', '99%')
+                    .transition()
+                    .duration(1000)
+                    .style('width', '74%')
+                d3.select('#playerCardDiv')
+                    .transition()
+                    .duration(1000)
+                    .style('width', '24%')
+                    .style('opacity',1)
+
+                    this.playerIsActive = true;
+                    this.selectedPlayer = d.playerid;
+                    d3.selectAll('.p' + d.playerid).classed('selectedB',true)
+            } else {
+                this.selectedPlayer = d.playerid;
+                d3.selectAll('.selectedB').classed('selectedB',false)
+                d3.selectAll('.p' + d.playerid).classed('selectedB',true)
+            }
     }
 
 }
