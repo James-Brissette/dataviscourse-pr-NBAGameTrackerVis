@@ -96,7 +96,13 @@ class Court{
             .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
             .attr('class', d => d[0] == -1 ? 'ball': 
                                (d[0] == teamA ? 'GSW p' + d[1] : 'UTA p' + d[1]))
-            .style("filter", "url(#drop-shadow)");
+            .style("filter", "url(#drop-shadow)")
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selected',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selected',false)
+            })
 
         d3.select('#eventId').text("Event" + this.event);
 

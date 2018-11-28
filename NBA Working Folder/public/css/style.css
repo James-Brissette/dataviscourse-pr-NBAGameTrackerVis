@@ -108,6 +108,11 @@ svg {
 .selected {
     fill: red;
 }
+
+circle.selected {
+    fill: #ff0000;
+}
+
 #vtm {
     float:left;
     position: relative;

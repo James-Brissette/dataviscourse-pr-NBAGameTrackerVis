@@ -229,6 +229,7 @@ class Team {
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
+            .attr('class', d => 'p'+ d.playerid)
             .on('click', d => this.playerCard.updatePlayer(d))
 
         vtmActive
@@ -237,6 +238,12 @@ class Team {
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
             .on('click', d => this.playerCard.updatePlayer(d))
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selected',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selected',false)
+            })
 
         vtmBench
             .text(d => d.firstname + ' ' + d.lastname)
