@@ -108,6 +108,30 @@ class Court{
 
         console.log(this.moments[0].map(a => a[1]).slice(1,11));
         let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
+
+        this.svg.append('circle')
+            .attr('cx', this.courtWidth - 200)
+            .attr('cy', this.courtHeight - 25)
+            .attr('r', 15)
+            .attr('class', this.teams.htm['abbreviation'])
+
+        this.svg.append('circle')
+            .attr('cx', this.courtWidth - 300)
+            .attr('cy', this.courtHeight - 25)
+            .attr('r', 15)
+            .attr('class', this.teams.vtm['abbreviation'])
+
+        this.svg.append('text')
+            .attr('x', this.courtWidth - 180)
+            .attr('y', this.courtHeight - 20)
+            .text (this.teams.htm.abbreviation)  
+
+        this.svg.append('text')
+            .attr('x', this.courtWidth - 280)
+            .attr('y', this.courtHeight - 20)
+            .text (this.teams.vtm.abbreviation)
+
+
         this.teamDisplays.updateActivePlayers(activePlayerList)
         this.teamDisplays.linkToCourt(this);
     }
