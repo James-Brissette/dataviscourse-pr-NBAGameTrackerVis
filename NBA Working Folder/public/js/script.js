@@ -26,6 +26,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
 
     let s;
     let t;
+    playerCard = new PlayerCard();
     d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
         let playerStats = ['PASS','AST']
 
@@ -34,8 +35,10 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
             teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i]);
             yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
             stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
+            stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
+                    stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
             console.log(stat);
-            new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax);
+            new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax,playerCard);
         }
     });
 
@@ -44,8 +47,6 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     d3.select('#playerCardDiv')
         .style('margin-top', ((statHeight - cardDivHeight)/2)+'px');
 
-    
-    playerCard = new PlayerCard();
     teamDisplays = new Team(teams, playerCard);
     court = new Court(gameData, players, teams, teamDisplays);
     court.drawPlayers()
