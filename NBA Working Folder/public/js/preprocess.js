@@ -208,14 +208,90 @@ d3.json('data/players.json').then(gameData => {
     saveAs(blob, "players_p.json"); */
 });
 
+	//d3.json('data/0021500' + gameNumber + '_p2.json').then(gameData => {
+	//	console.log('possesions');
+	//	console.log(gameData);
+	//	let curTeam = 1610612744;
+	//	for (event = 0; event < gameData.events.length; event++) {
+	//		for (moment = 0; moment < gameData.events[event].moments.length; moment++) {
+	//			let curMoment = gameData.events[event].moments[moment];
+	//			if (curMoment[4].length < 3) { console.log('weird length'); continue; }
+	//			let ball = curMoment[4][0];
+	//			let ballIdx = 0;
+	//			for (idx = 0; idx < curMoment[4].length; idx++) {
+	//				if (curMoment[4][idx][0] === -1) {
+	//					ball = curMoment[4][idx];
+	//					ballIdx = idx;
+	//				}
+	//			}
+	//			console.log(ballIdx);
+	//			let closestPerson = 1;
+	//			let secondClosestPerson = 1;
+	//			let ballPosition = ball[2] * ball[2] + ball[3] * ball[3];
+	//			let closestDist = 10000;
+	//			let secondClosestDist = 10000;
+	//			for (idx = 0; idx < curMoment[4].length; idx++) {
+	//				if (idx == ballIdx) {
+	//					continue;
+	//				}
+	//				let newDist = Math.pow(ball[2] - curMoment[4][idx][2], 2) + Math.pow(ball[3] - curMoment[4][idx][3], 2);
+	//				if (closestDist > newDist && newDist < 9) {
+	//					secondClosestPerson = closestPerson;
+	//					secondClosestDist = closestDist;
+	//					closestDist = newDist;
+	//					closestPerson = idx;
+	//				}
+	//				curMoment[4][idx].push(0);
+	//			}
+	//			if (closestDist < 9) {
+	//				if (secondClosestDist < 9) {
+	//					if (curMoment[4][closestPerson][0] == curTeam) {
+	//						curMoment[4][closestPerson][5] = 1;
+	//					}
+	//					else if (curMoment[4][secondClosestPerson][0] == curTeam) {
+	//						curMoment[4][secondClosestPerson][5] = 1;
+	//					}
+	//				}
+	//				else {
+	//					curMoment[4][closestPerson][5] = 1;
+	//					curTeam = curMoment[4][closestPerson][0];
+	//				}
+	//			}
+	//		}
+	//	}
+	//	let blob = new Blob([JSON.stringify(gameData)], { type: 'application/json' });
+	//	saveAs(blob, "possession.json");
+	//	var num = 5;
+	//	let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
+	//	let teams = [];
 
+	//	teams['htm'] = gameData.teams.home;
+	//	teams['vtm'] = gameData.teams.visitor;
 
+	//	teamDisplays = "";
+	//	teamDisplays = new Team(teams);
+	//	court = new Court(gameData, players, teams, teamDisplays);
+	//	court.drawPlayers();
+	//	let draw = true;
+	//	let pause = true;
+	//	let timer = d3.timer((elapsed) => {
+	//		timerCallback(elapsed)
+	//	});
 
+	//	Simple Pause by clicking on the court
+	//	d3.select('.court').on('click', function () {
+	//		if (pause) {
+	//			timer.stop()
+	//		} else {
+	//			timer.restart(elapsed => timerCallback(elapsed))
+	//		}
+	//		pause = !pause;
+	//	});
 
-
-
-
-
-
-
-
+	//	function timerCallback(elapsed) {
+	//		let t = Math.min(100, elapsed / 1000);
+	//		if (draw) court.update();
+	//		draw = !draw;
+	//		if (t == 100) timer.stop();
+	//	}
+	//});

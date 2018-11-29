@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NBA Game Tracker</title>
+    <link rel="stylesheet" href="public/css/style.css"/>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="https://d3js.org/d3-timer.v1.min.js"></script>
+    <script src="./public/js/FileSaver.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.js"></script>
+</head>
+
+<body>
+
+	<h1>NBA Player Tracker Preliminary Vis</h1>
+
+	<div id='teamView' class='frame'>
+		<div class='section'>
+			<div class='header'>
+				<svg>
+					<text id='headerText'></text>
+				</svg>
+			</div>
+		</div>
+		<div class='section padded main'>
+			<div id='vtm' class='team'>
+				<div class='icon-highlight vtm'></div>
+			</div>
+			<div class='court'>
+				<img class='courtPNG' src='./figs/basketball-court.png'>
+				<svg class='overlay'></svg>
+			</div>
+		</div>
+		<div class='section'>
+			<div class='eventSlider'>
+				Slider
+			</div>
+		</div>
+		<div class='section centered padded chart'>
+			<div class="passGraph">
+				
+			</div>
+		</div>
+
+		<div class='section'>
+			<div class='currentPassGraph'>
+				
+			</div>
+		</div>
+
+		<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+			<linearGradient id='uta-gradient' x2="1" y2="1">
+				<stop offset="0%" stop-color="#f7d70d" />
+				<stop offset="16%" stop-color="#fda33b" />
+				<stop offset="31%" stop-color="#fd843c" />
+				<stop offset="47%" stop-color="#ff553c" />
+				<stop offset="61%" stop-color="#d33027" />
+				<stop offset="74%" stop-color="#7e2223" />
+				<stop offset="87%" stop-color="#682929" />
+				<stop offset="100%" stop-color="#391a1c" />
+			</linearGradient>
+		</svg>
+
+	</div>
+	<div id="court">
+
+	</div>
+
+	<script type="application/javascript" src="public/js/Court.js"></script>
+	<script type="application/javascript" src="public/js/Player.js"></script>
+	<script type="application/javascript" src="public/js/PlayerDisplay.js"></script>
+	<!--<script type="application/javascript" src="public/js/StackedBarChart.js"></script>-->
+	<script type="application/javascript" src="public/js/playerSetup.js"></script>
+	<script>
+/* d3.svg('./figs/svg-logos/MIA.svg').then(svg => {
+							let s = d3.select(svg).select('svg').classed('teamLogo',true)
+								.attr('width', 250 / 2)
+								.attr('height', 250 / 3)
+								.attr('x', 10)
+								.attr('y', 10)
+							d3.select('.test').node().appendChild(s.node());
+						}); */
+	</script>
+
+</body>
+</html>
+

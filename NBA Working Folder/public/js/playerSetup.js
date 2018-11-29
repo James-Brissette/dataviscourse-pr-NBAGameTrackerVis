@@ -8,7 +8,6 @@ d3.json('data/434playbyplay.json').then(playByPlayData => {
 	let playbyplay = playByPlayData.resultSets[0].rowSet;
 
 	d3.json('data/0021500' + gameNumber + '_p2.json').then(gameData => {
-
 		//Begin Possession Proprecessing
 		console.log('possesions');
 		console.log(gameData);
@@ -63,7 +62,6 @@ d3.json('data/434playbyplay.json').then(playByPlayData => {
 			}
 		}
 		//End Possession Preprocessing
-
 		console.log(gameData);
 
 		let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
@@ -83,17 +81,18 @@ d3.json('data/434playbyplay.json').then(playByPlayData => {
 		d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
 			let playerStats = ['PASS', 'AST']
 
-			for (i = 0; i < playerStats.length; i++) {
-				playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[i]);
-				teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i]);
-				yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
-				stat = chartData.resultSets[0].rowSet.map(a => [a[2], a[4], a[5], a[playerStatCol]])
-				new StackedBarChart(stat, teams, 'chart' + (i + 1), playerStatCol, yMax);
-			}
+			//for (i = 0; i < playerStats.length; i++) {
+			//	playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[i]);
+			//	teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i]);
+			//	yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
+			//	stat = chartData.resultSets[0].rowSet.map(a => [a[2], a[4], a[5], a[playerStatCol]])
+			//	new StackedBarChart(stat, teams, 'chart' + (i + 1), playerStatCol, yMax);
+			//}
 		});
-
-		teamDisplays = new Team(teams);
-		court = new Court(gameData, players, teams, teamDisplays, playbyplay);
+		
+		teamDisplays = new Player(teams);
+		let playerDisplays = new PlayerDisplay(players);
+		court = new Court(gameData, players, teams, teamDisplays, playbyplay, playerDisplays);
 		court.drawPlayers();
 		let draw = true;
 		let pause = true;

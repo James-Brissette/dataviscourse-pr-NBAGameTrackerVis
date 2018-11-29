@@ -1,9 +1,13 @@
 class Court{
-    constructor(gameData, players, teams, teamDisplays) {
-        this.gameData = gameData;
+    constructor(gameData, players, teams, teamDisplays, playbyplay, playerDisplays) {
+		this.gameData = gameData;
+		this.playbyplay = playbyplay;
+		this.curPlay = 0;
+		this.score = " 0 - 0";
         this.players = players;
         this.teams = teams;
 		this.teamDisplays = teamDisplays;
+		this.playerDisplays = playerDisplays;
 		this.coloredPlayers = [];
         
         this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
@@ -19,10 +23,16 @@ class Court{
             .attr('transform','translate(0,' + -this.courtHeight+ ')')
 
         this.svg.append('text').attr('id','eventId')
-            .attr('x', this.courtWidth / 2)
+            .attr('x', 3 * this.courtWidth / 4)
             .attr('y', 25)
             .attr('text-anchor','middle')
-            .text('eventId')
+			.text('eventId')
+		this.svg.append('text').attr('id', 'score')
+			.attr('x', this.courtWidth / 2)
+			.attr('y', 35)
+			.attr('text-anchor', 'middle')
+			.attr('font-size', '50px')
+			.text('0 - 0')
         this.svg.append('text').attr('id','gameClock')
             .attr('x', this.courtWidth / 4)
             .attr('y', 25)
@@ -36,8 +46,11 @@ class Court{
 
         this.events = this.gameData.events;
         this.event = 0;
-        this.moments = this.events[this.event].moments.map(a => a[4]);
-        this.moment = 0;
+		this.moments = this.events[this.event].moments.map(a => a[4]);
+		if (localStorage["curMoment"])
+			this.moment = localStorage["curMoment"];
+		else
+			this.moment = 0;
         this.xScale;
         this.yScale;
         this.rScale;
@@ -121,6 +134,29 @@ class Court{
             this.loadEvent();
             return;
 		}
+
+		//Update Passing display
+		if (this.playerDisplays != null) {
+			let curPossession = -1;
+			for (let i = 0; i < this.moments[this.moment].length; i++) {
+				if (this.moments[this.moment][i][5] == 1) {
+					curPossession = this.moments[this.moment][i][1];
+					break;
+				}
+			}
+			this.playerDisplays.addPossession(curPossession);
+		}
+
+		//Update Score
+		if (this.curTime <= this.playbyplay[this.curPlay][6]) {
+			if (this.playbyplay[this.curPlay][10] != null) {
+				this.score = this.playbyplay[this.curPlay][10];
+				this.playerDisplays.resetPlay();
+			}
+			this.teamPossession = this.playbyplay;
+			this.curPlay += 1;
+		}
+
 		//TODO: The heatmap should be moved to its own type of view, it's too laggy for realtime
 		this.curHeatmap = this.curHeatmap.concat(this.moments[this.moment]);
 		let heatmapSquares = [];
@@ -145,11 +181,13 @@ class Court{
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
             .attr('cy', d => this.yScale(d[3]))
-            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
+            .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + (d[5] * 5) + this.scaleEffect))
             .style("filter", d => d[0] == -1 ? '' : "url(#drop-shadow)");
-
-        d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
-
+		this.curTime = Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1'] % 60).toFixed(0);
+		d3.select('#gameClock').text("Time Remaining: " + this.curTime);
+		// Add scores
+		d3.select('#score').text(this.score);
+		localStorage["curMoment"] = this.moment;
         this.moment++;
     }
 

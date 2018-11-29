@@ -1,5 +1,6 @@
 class Team {
-    constructor(teams) {
+	constructor(teams) {
+		this.isHeatmap = false;
 		this.court;
 		this.colors = ['rgb(57, 106, 177)', 'rgb(62, 150, 81)', 'rgb(204, 37, 41)', 'rgb(83, 81, 87)', 'rgb(107, 76, 154)'];
 		this.selectedColors = [0, 0, 0, 0, 0];
@@ -186,12 +187,19 @@ class Team {
 		let htmActiveEnter = htmActive.enter().append('text')
 			.attr('class', d => 'name' + d.playerid)
 			.on('click', d => {
-				let color = this.nextColor(d.playerid);
-				if (color == -1) {
-					return;
+				if (this.isHeatmap) {
+					let color = this.nextColor(d.playerid);
+					if (color == -1) {
+						return;
+					}
+					this.court.selectPlayer(d.playerid, color);
 				}
-				this.court.selectPlayer(d.playerid, color);
+				else {
+					localStorage["curPlayerid"] = d.playerid;
+					window.location.href = "NBA_PLayerVis.html";
+				}
 			});
+
         htmActive.exit().remove();
         htmActive = htmActiveEnter.merge(htmActive);
 
@@ -207,11 +215,18 @@ class Team {
 		let vtmActiveEnter = vtmActive.enter().append('text')
 			.attr('class', d => 'name' + d.playerid)
 			.on('click', d => {
-				let color = this.nextColor(d.playerid);
-				if (color == -1) {
-					return;
+				if (this.isHeatmap) {
+					let color = this.nextColor(d.playerid);
+					if (color == -1) {
+						return;
+					}
+					this.court.selectPlayer(d.playerid, color);
 				}
-				this.court.selectPlayer(d.playerid, color);
+				else {
+					localStorage["curPlayerid"] = d.playerid;
+					window.location.href = "NBA_PLayerVis.html";
+				}
+				
 			});
         vtmActive.exit().remove();
         vtmActive = vtmActiveEnter.merge(vtmActive);
