@@ -19,16 +19,56 @@ class Court{
             //.attr('transform','translate(-' + this.courtWidth + ',0)')
             /* .attr('transform','translate(0,' + -this.courtHeight+ ')') */
 
+        this.scorecard = d3.select('.scorecard')
+        let scorecardheight = this.scorecard.node().getBoundingClientRect().height;
+        //d3.select('.scorecard').style('left', (this.courtWidth - this.scorecard.node().getBoundingClientRect().width)/2 + 'px')
+        let vtmscore = d3.select('.vtmscore').append('svg')
+        vtmscore
+            .append('image')
+                .attr('xlink:href','./figs/scorecard-logos/' + this.teams.vtm.abbreviation + '.png')
+                .attr('height',scorecardheight-2)
+        vtmscore
+            .append('text')
+                .attr('x',185)
+                .attr('y',35)
+                .attr('text-anchor','middle')
+                .text('0')
+
+        let htmscore = d3.select('.htmscore').append('svg')
+        htmscore
+            .append('image')
+                .attr('xlink:href','./figs/scorecard-logos/' + this.teams.htm.abbreviation + '.png')
+                .attr('height',scorecardheight-2)
+        htmscore
+            .append('text')
+                .attr('x',185)
+                .attr('y', 35)
+                .attr('text-anchor','middle')
+                .text('0')
+
         this.svg.append('text').attr('id','eventId')
             .attr('x', this.courtWidth / 2)
             .attr('y', 25)
             .attr('text-anchor','middle')
             .text('eventId')
-        this.svg.append('text').attr('id','gameClock')
-            .attr('x', this.courtWidth / 4)
-            .attr('y', 25)
+
+        //Append the Quarter count
+        d3.select('.period').append('svg')
+            .attr('height','100%')
+        .append('text').attr('id','quarter')
+            .attr('x', 30)
+            .attr('y', 30)
             .attr('text-anchor','middle')
-            .text('Time Remaining')
+            .text('Q1')
+
+        //Append the time clock
+        d3.select('.time').append('svg')
+            .attr('height','100%')
+        .append('text').attr('id','gameClock')
+            .attr('x', 40)
+            .attr('y', 30)
+            .attr('text-anchor','middle')
+            .text('00:00')
 
         this.xMin = 0;
         this.xMax = 100;
@@ -151,7 +191,12 @@ class Court{
             .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
             .style("filter", d => d[0] == -1 ? '' : "url(#drop-shadow)");
 
-        d3.select('#gameClock').text("Time Remaining: " + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
+            console.log(this.events[this.event])
+        d3.select('#gameClock').text("" + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
+        if (this.events[this.event].moments[this.moment]['2'] != null) {
+            d3.select('#shotClock').text("" + this.events[this.event].moments[this.moment]['2'].toFixed(1))
+        }
+        d3.select('#quarter').text("Q" + this.events[this.event].moments[this.moment]['0']);
 
         this.moment++;
     }
