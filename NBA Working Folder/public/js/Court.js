@@ -98,10 +98,11 @@ class Court{
                                (d[0] == teamA ? 'GSW p' + d[1] : 'UTA p' + d[1]))
             .style("filter", "url(#drop-shadow)")
             .on('mouseenter', d => {
-                d3.selectAll('.p' + d.playerid).classed('selected',true)
+                console.log(d)
+                d3.selectAll('.p' + d[1]).classed('selectedA',true)
             })
             .on('mouseleave', d => {
-                d3.selectAll('.p' + d.playerid).classed('selected',false)
+                d3.selectAll('.p' + d[1]).classed('selectedA',false)
             })
 
         d3.select('#eventId').text("Event" + this.event);
