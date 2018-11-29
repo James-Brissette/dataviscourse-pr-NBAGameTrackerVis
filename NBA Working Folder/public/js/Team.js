@@ -275,6 +275,7 @@ class Team {
 
     updatePlayerCard(d) {
         this.playerCard.updatePlayer(d)
+        d3.select('.switch').attr('class','switch ' + d.abbreviation);
             if (this.playerIsActive && this.selectedPlayer == d.playerid) {
                 d3.select('#playerCardDiv')
                     .style('width', '24%')

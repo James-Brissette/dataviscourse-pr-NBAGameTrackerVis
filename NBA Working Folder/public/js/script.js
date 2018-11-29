@@ -43,7 +43,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     });
 
     d3.json('data/434_boxscoretraditional.json').then(chartData => {
-        let playerStats = [['REB','REBOUNDS'],['STL','STEALS'],['PTS','POINTS SCORED'],
+        let playerStats = [[],[],['PTS','POINTS SCORED'],
                            ['FGA','FIELD GOAL ATTEMPTS'],['DREB','DEFENSIVE REBOUNDS'],['OREB','OFFENSIVE REBOUNDS'],
                            ['PF','PERSONAL FOULS'],['MIN','MINUTES PLAYED']]
 

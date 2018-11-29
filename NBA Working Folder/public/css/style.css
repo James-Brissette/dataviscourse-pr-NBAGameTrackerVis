@@ -117,7 +117,7 @@ svg {
     fill: rgb(255, 192, 75) !important;
 }
 .selectedB {
-    fill: rgb(48, 248, 255);
+    fill: rgb(48, 248, 255) !important;
 }
 
 circle.selected {
@@ -175,6 +175,20 @@ h1 {
     /* border: 3px solid red; */
     width: 99%;
 }
+
+.toggle {
+    transform: translate(25%,75%);
+}
+.sliderWrapper{
+    fill: rgba(255,255,255,.3)
+}
+.switch {
+    cursor: pointer;
+}
+.checked {
+    
+}
+
 .section {
     position: relative;
     display: inline-block;

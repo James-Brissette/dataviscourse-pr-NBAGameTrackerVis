@@ -30,8 +30,21 @@ class PlayerCard{
         this.playerCardDivider = this.teamBlock.append('text').classed('playerCardDivider', true);
         this.playerCardTeam = this.teamBlock.append('text').classed('playerCardTeam', true);
 
-          
-        
+        this.toggle = this.svg.append('g').classed('toggle',true)
+        this.toggle.append('rect').classed('sliderWrapper', true)
+            .attr('x',0)
+            .attr('y',0)
+            .attr('rx',15)
+            .attr('ry',15)
+            .attr('height',30)
+            .attr('width',150)
+
+        this.isChecked = false;
+        this.toggle.append('circle').classed('switch', true)
+            .attr('cx', 15)
+            .attr('cy', 15)
+            .attr('r', 10)
+  
     }
 
 
@@ -107,6 +120,20 @@ class PlayerCard{
         this.teamLogo.append('svg').node().appendChild(s.node());
 
         
+        d3.select('.switch')
+            .on('click', function() {
+                if (this.isChecked) {
+                    d3.select('.switch').transition()
+                        .duration(1000)
+                        .attr('transform','translate(0,0)')
+                    this.isChecked = false;
+                } else {
+                    d3.select('.switch').transition()
+                    .duration(1000)
+                    .attr('transform','translate(120,0)')
+                    this.isChecked = true;
+                }
+            })
         });
 
         console.log();
