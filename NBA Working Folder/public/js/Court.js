@@ -129,7 +129,7 @@ class Court{
         let playersEnter = players.enter().append('circle');
         players.exit().remove();
         players = playersEnter.merge(players);
-        console.log(players)
+        
         players
             .attr('cx', (d,i) => this.xScale(i * 2))
             .attr('cy',  (d,i) => this.yScale(i * 2))
@@ -138,7 +138,6 @@ class Court{
                                (d[0] == teamA ? 'GSW p' + d[1] : 'UTA p' + d[1]))
             .style("filter", "url(#drop-shadow)")
             .on('mouseenter', d => {
-                console.log(d)
                 d3.selectAll('.p' + d[1]).classed('selectedA',true)
             })
             .on('mouseleave', d => {
@@ -191,7 +190,6 @@ class Court{
             .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
             .style("filter", d => d[0] == -1 ? '' : "url(#drop-shadow)");
 
-            console.log(this.events[this.event])
         d3.select('#gameClock').text("" + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
         if (this.events[this.event].moments[this.moment]['2'] != null) {
             d3.select('#shotClock').text("" + this.events[this.event].moments[this.moment]['2'].toFixed(1))

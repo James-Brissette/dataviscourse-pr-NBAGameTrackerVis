@@ -42,6 +42,35 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
         }
     });
 
+    d3.json('data/434_boxscoretraditional.json').then(chartData => {
+        let playerStats = [['REB','REBOUNDS'],['STL','STEALS'],['PTS','POINTS SCORED'],
+                           ['FGA','FIELD GOAL ATTEMPTS'],['DREB','DEFENSIVE REBOUNDS'],['OREB','OFFENSIVE REBOUNDS'],
+                           ['PF','PERSONAL FOULS'],['MIN','MINUTES PLAYED']]
+
+        for (i=2; i < playerStats.length-1; i++) {
+            playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[i][0]);
+            teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i][0]);
+            yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
+            stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
+            stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
+                    stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
+            console.log(stat);
+            new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax,playerStats[i],playerCard);
+        }
+
+        playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[7][0]);
+        teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[7][0]);
+        yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => (+a[teamStatCol].slice(0,a[teamStatCol].indexOf(':')))+(+a[teamStatCol].slice(a[teamStatCol].indexOf(':')+1)/60)).flat());
+        
+        console.log(chartData)
+        console.log(yMax);
+        stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],(+a[teamStatCol].slice(0,a[teamStatCol].indexOf(':')))+(+a[teamStatCol].slice(a[teamStatCol].indexOf(':')+1)/60)])
+        stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
+                stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
+        console.log(stat);
+        new StackedBarChart(stat,teams,'chart'+(8),playerStatCol,yMax,playerStats[i],playerCard);
+    });
+
     let statHeight = d3.select('#playerCardStats').node().getBoundingClientRect().height;
     let cardDivHeight = d3.select('#playerCardDiv').node().getBoundingClientRect().height;
     d3.select('#playerCardDiv')
