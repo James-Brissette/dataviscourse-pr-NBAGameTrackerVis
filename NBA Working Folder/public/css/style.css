@@ -200,15 +200,30 @@ h1 {
 .scorecard {
     border: 1px solid #fff;
     height: 40px;
-    width: 400px;
+    width: 600px;
 }
-.htmscore, .vtmscore {
+.htmscore, .vtmscore, .gameclock {
     float: left;
     height: 100%;
-    width: 49.5%;
+    width: 33.3%;
     display: inline-block;
-    border: 1px solid red;
 }
+
+.period, .shotclock {
+    float: left;
+    height: 100%;
+    width: 30%;
+    background-color: blue;
+}
+
+.time {
+    display: inline-block;
+    float: left;
+    background-color: green;
+    height: 100%;
+    width: 40%
+}
+
 .summaryChart {
     /* width: 220px;
     height: 150px; */

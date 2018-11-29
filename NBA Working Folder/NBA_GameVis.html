@@ -81,8 +81,13 @@
     </div>  -->
 
     <div class='scorecard'>
-        <div class='htmscore'></div>
         <div class='vtmscore'></div>
+        <div class='htmscore'></div>
+        <div class='gameclock'>
+            <div class='period'></div>
+            <div class='time'></div>
+            <div class='shotclock'></div>
+        </div>
         <svg>
             <text x='100' y='40' fill="#fff" font-size="50" text-anchor='end'>#10</text>
             <text x='105' y='20' fill="#fff" font-size="20">Stephen</text>
@@ -121,6 +126,12 @@
 <script type="application/javascript" src="public/js/script.js"></script>
 <script type="application/javascript" src="public/js/preprocess.js"></script> -->
 <script>
+    d3.select('.vtmscore').append('img')
+        .attr('src','./figs/samplevtm.PNG')
+        .attr('height',40)
+    d3.select('.htmscore').append('img')
+        .attr('src','./figs/samplehtm.PNG')
+        .attr('height',40)
 /* d3.svg('./figs/svg-logos/MIA.svg').then(svg => {
             let s = d3.select(svg).select('svg').classed('teamLogo',true)
                 .attr('width', 250 / 2)
