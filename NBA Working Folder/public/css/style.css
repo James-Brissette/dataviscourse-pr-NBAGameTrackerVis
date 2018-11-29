@@ -197,6 +197,18 @@ h1 {
     fill: #000;
 }
 
+.scorecard {
+    border: 1px solid #fff;
+    height: 40px;
+    width: 400px;
+}
+.htmscore, .vtmscore {
+    float: left;
+    height: 100%;
+    width: 49.5%;
+    display: inline-block;
+    border: 1px solid red;
+}
 .summaryChart {
     /* width: 220px;
     height: 150px; */
