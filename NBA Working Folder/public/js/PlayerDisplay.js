@@ -42,13 +42,13 @@ class PlayerDisplay {
 				{ 'id': this.players[i].playerid }
 			);
 			for (let k = 0; k < this.players.length; k++) {
-				//this.newGraph.links.push(
-				//	{
-				//		'source': this.players[i].playerid,
-				//		'target': this.players[k].playerid,
-				//		'value': 1
-				//	}
-				//);
+				this.newGraph.links.push(
+					{
+						'source': this.players[i].playerid,
+						'target': this.players[k].playerid,
+						'value': 1
+					}
+				);
 			}
 		}
 		this.updateForceGraph('203526', '201575');
@@ -205,7 +205,7 @@ class PlayerDisplay {
 		}
 		if (previousPlayer != -1) {
 			//Add it to the node graph
-			this.updateForceGraph(previousPlayer, this.curPlayer);
+			//this.updateForceGraph(previousPlayer, this.curPlayer);
 		}
 		//Add it to the temporal line
 		let temp_line = this.currentPassGraph.selectAll('rect').data(this.curPlay);
