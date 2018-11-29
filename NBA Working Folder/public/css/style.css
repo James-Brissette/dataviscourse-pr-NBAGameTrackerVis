@@ -67,6 +67,10 @@ svg {
     filter: blur(50px);
 }
 
+.stacked-bars > text {
+    fill: white;
+    stroke: none;
+}
 .activeRoster > rect {
     transform-origin: top left;
     transform: translate(20px,255px) rotate(270deg);
@@ -97,7 +101,7 @@ svg {
 }
 #vtmBenchPlayers, #htmBenchPlayers {
     font-size: 25px;
-    cursor: default;
+    cursor: pointer;
     fill: #fff;
 }
 
@@ -106,10 +110,10 @@ svg {
 }
 
 .selectedA {
-    fill: orange !important;
+    fill: rgb(255, 192, 75) !important;
 }
 .selectedB {
-    fill: red !important;
+    fill: rgb(48, 248, 255);
 }
 
 circle.selected {
@@ -123,10 +127,6 @@ circle.selected {
 #htm {
     float:right;
     position: relative;
-}
-#htm image {
-}
-#htmPlayers {
 }
 
 h1 {
@@ -186,6 +186,17 @@ h1 {
 .padded {
     margin-top: 20px;
 }
+
+.stat {
+    border: 4px solid white;
+    color: white;
+    display: inline-block;
+    width: 200px;
+    height: 70px;
+    background-color: rgba(50,50,50,.5);
+    fill: #000;
+}
+
 .summaryChart {
     /* width: 220px;
     height: 150px; */
@@ -201,14 +212,21 @@ h1 {
 
 .x-axis {
     transform: translate(30px,227px);
+    color: #ddd;
 }
 
 .y-axis {
-    transform: translate(30px,25px);
+    transform: translate(30px,55px);
+    color: #ddd;
 }
 
+.chartTitle {
+    fill: #fff;
+    font-size: 22px;
+    font-weight: bold;
+}
 .stacked-bars {
-    transform: translate(0px,25px);
+    transform: translate(0px,55px);
     stroke:black;
 }
 

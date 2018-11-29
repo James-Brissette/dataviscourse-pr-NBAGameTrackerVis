@@ -28,17 +28,17 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     let t;
     playerCard = new PlayerCard();
     d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
-        let playerStats = ['PASS','AST']
+        let playerStats = [['PASS','PASSES'],['AST','ASSISTS']]
 
         for (i=0; i < playerStats.length; i++) {
-            playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[i]);
-            teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i]);
+            playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[i][0]);
+            teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[i][0]);
             yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => a[teamStatCol]).flat());
             stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
             stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
                     stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
             console.log(stat);
-            new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax,playerCard);
+            new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax,playerStats[i],playerCard);
         }
     });
 
