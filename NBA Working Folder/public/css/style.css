@@ -5,6 +5,11 @@ body {
     background-size: auto;
 }
 
+.links line {
+	stroke: black;
+	stroke-opacity: 0.6;
+}
+
 .overlay {
     position: absolute;
     top: 0;

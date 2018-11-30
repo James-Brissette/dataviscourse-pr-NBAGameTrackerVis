@@ -37,6 +37,8 @@ class StackedBarChart{
 				return ([0,0]);
             });
 
+
+
         this.drawBars();
     }    
 

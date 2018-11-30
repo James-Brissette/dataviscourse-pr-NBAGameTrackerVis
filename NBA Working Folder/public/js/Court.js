@@ -1,9 +1,10 @@
 class Court{
-    constructor(gameData, players, teams, teamDisplays) {
+    constructor(gameData, players, teams, teamDisplays, passMap) {
         this.gameData = gameData;
         this.players = players;
         this.teams = teams;
-        this.teamDisplays = teamDisplays;
+		this.teamDisplays = teamDisplays;
+		this.passMap = passMap;
         
         this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
 
@@ -182,7 +183,16 @@ class Court{
             this.loadEvent();
             return;
         }
-        
+
+		let curPossession = -1;
+		for (let i = 0; i < this.moments[this.moment].length; i++) {
+			if (this.moments[this.moment][i][5] == 1) {
+				curPossession = this.moments[this.moment][i][1];
+				break;
+			}
+		}
+		this.passMap.addPossession(curPossession);
+
         let players = this.svg.selectAll('circle')
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))

@@ -4,7 +4,7 @@ let teamDisplays;
 let playerCard;
 
 gameNumber = ('00' + 434).substr(-3);
-d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
+d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
     console.log(gameData);
 
     let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
@@ -26,8 +26,13 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
 
     let s;
     let t;
-    playerCard = new PlayerCard();
-    d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
+	playerCard = new PlayerCard();
+	let forceGraph;
+	d3.json('data/links.json').then(linkData => {
+		forceGraph = new ForceGraph(linkData, players);
+	});
+
+	d3.json('data/434_boxscoreplayertrack.json').then(chartData => {
         let playerStats = [['PASS','PASSES'],['AST','ASSISTS']]
 
         for (i=0; i < playerStats.length; i++) {
@@ -76,8 +81,9 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     d3.select('#playerCardDiv')
         .style('margin-top', ((statHeight - cardDivHeight)/2)+'px');
 
+	let passBar = new PassBar(players);
     teamDisplays = new Team(teams, playerCard);
-    court = new Court(gameData, players, teams, teamDisplays);
+	court = new Court(gameData, players, teams, teamDisplays, passBar);
     court.drawPlayers()
     let draw = true
     let pause = true;
