@@ -119,19 +119,46 @@ class PlayerCard{
 
         this.teamLogo.append('svg').node().appendChild(s.node());
 
-        
         d3.select('.switch')
             .on('click', function() {
                 if (this.isChecked) {
                     d3.select('.switch').transition()
                         .duration(1000)
                         .attr('transform','translate(0,0)')
+                    d3.select('#playerGraph')
+                        .style('width','800px')
+                        .transition()
+                        .duration(1000)
+                        .style('width','0px')
+                        .style('opacity',0)
+                    d3.select('#playerCardStats')
+                        .style('width','0%')
+                        .transition()
+                        .duration(1000)
+                        .style('width','99%')
+                        .style('opacity',1)
                     this.isChecked = false;
+                    d3.select('.switch').classed('checked', false)
                 } else {
+                    frame_width = d3.select('.dataResults').node().getBoundingClientRect().width;
+                    svg_width = d3.select('#playerGraph').select('svg').node().getBoundingClientRect().width;
                     d3.select('.switch').transition()
                     .duration(1000)
                     .attr('transform','translate(120,0)')
+                    d3.select('#playerGraph')
+                    .style('width','0px')
+                    .transition()
+                    .duration(1000)
+                    .style('width','800px')
+                    .style('opacity',1)
+                    d3.select('#playerCardStats')
+                    .style('width','99%')
+                    .transition()
+                    .duration(1000)
+                    .style('width','0%')
+                    .style('opacity',0)
                     this.isChecked = true;
+                    d3.select('.switch').classed('checked', true)
                 }
             })
         });

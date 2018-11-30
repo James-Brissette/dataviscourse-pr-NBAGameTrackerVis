@@ -235,7 +235,15 @@ class Team {
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
             .attr('class', d => 'p'+ d.playerid)
-            .on('click', d => this.playerCard.updatePlayer(d))
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',false)
+            })
+            .on('click', d => {
+                that.updatePlayerCard(d);
+            })
 
         vtmActive
             .text(d => d.firstname + ' ' + d.lastname)
@@ -259,6 +267,13 @@ class Team {
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
+            .attr('class', d => 'p' + d.playerid)
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',false)
+            })
             .on('click', d => {
                 that.updatePlayerCard(d);
             })
@@ -274,6 +289,7 @@ class Team {
     }
 
     updatePlayerCard(d) {
+        let that = this;
         this.playerCard.updatePlayer(d)
         d3.select('.switch').attr('class','switch ' + d.abbreviation);
             if (this.playerIsActive && this.selectedPlayer == d.playerid) {
@@ -283,19 +299,38 @@ class Team {
                     .duration(1000)
                     .style('width', '0%')
                     .style('opacity',0)
-                d3.select('#playerCardStats')
+                d3.select('.dataResults')
                     .style('width', '74%')
                     .transition()
                     .duration(1000)
-                    .style('width', '99%')
+                    .style('width', '98%')
+                    
+                    console.log(d3.select('.switch')._groups[0][0].classList);
+                if (d3.select('.switch')._groups[0][0].classList.value.indexOf('checked') > -1) { 
+                    d3.select('.switch').dispatch('click') 
+                };
+                /* d3.select('#playerGraph')
+                    .transition()
+                    .duration(1000)
+                    .style('width','0px')
+                    .style('opacity',0)
+                d3.select('#playerCardStats')
+                    .transition()
+                    .duration(1000)
+                    .style('width','99%')
+                    .style('opacity',1)
+                d3.select('.switch').transition()
+                    .duration(1000)
+                    .attr('transform','translate(0,0)') */
+                
 
                 d3.selectAll('.selectedB').classed('selectedB',false)
                 this.playerIsActive = false;
                 this.selectedPlayer = 0;
 
             } else if (!this.playerIsActive) {
-                d3.select('#playerCardStats')
-                    .style('width', '99%')
+                d3.select('.dataResults')
+                    .style('width', '98%')
                     .transition()
                     .duration(1000)
                     .style('width', '74%')

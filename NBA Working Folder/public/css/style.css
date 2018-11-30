@@ -172,8 +172,30 @@ h1 {
     height: 400px;
     opacity: 0;
     float: left;
+    border: 1px solid white;
+    display: inline-block;
+}
+#playerGraph {
+    position: relative;
+    /* border: 3px solid red; */
+    width: 0%;
+    opacity: 0;
+    float: left;
+    border: 1px solid white;
+}
+#passGraph, #currentPassGraph {
+    display: none;
+}
+#playerGraph {
+    height: 600px;
+    transform: translate(100px,0px)
 }
 
+.dataResults {
+    position: relative;
+    width: 98%;
+    display: inline-block;
+}
 #playerCardStats {
     position: relative;
     float: left;

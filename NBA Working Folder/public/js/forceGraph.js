@@ -4,9 +4,9 @@ class ForceGraph{
 		this.players = players;
 		this.colors = ['rgb(57, 106, 177)', 'rgb(62, 150, 81)', 'rgb(204, 37, 41)', 'rgb(83, 81, 87)', 'rgb(107, 76, 154)'];
 
-		this.passGraph = d3.select('.passGraph').append('svg');
+		this.passGraph = d3.select('#playerGraph').append('svg');
 		this.passGraph.attr("width", 800);
-		this.passGraph.attr("height", 800);
+		this.passGraph.attr("height", 600);
 		//this.div = d3.select("body").append("div")
 		//	.attr("class", "tooltip")
 		//	.style("position", "absolute")
@@ -55,12 +55,15 @@ class ForceGraph{
 	setupForceGraph() {
 		this.newGraph = { 'links': [], 'nodes': [] };
 		for (let i = 0; i < this.players.length; i++) {
+			console.log(this.players[i])
 			this.newGraph.nodes.push(
-				{ 'id': this.players[i].playerid }
+				{ 'id': this.players[i].playerid ,
+				  'abbreviation': this.players[i].abbreviation }
 			);
 		}
 		this.newGraph.links = this.link;
 		this.updateForceGraph('203526', '201575');
+		this.passGraph.call(this.tip);
 	}
 
 	updateForceGraph(source, target) {
@@ -75,7 +78,7 @@ class ForceGraph{
 			//.force("charge", d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60))
 			.force("repelForce", d3.forceManyBody().strength(-2000).distanceMax(400).distanceMin(0))
 			//.force("charge", d => 60000)
-			.force("center", d3.forceCenter(width / 2, height / 2));
+			.force("center", d3.forceCenter((width / 2)-50, height / 3));
 
 		var link = this.links
 			.selectAll("line")
@@ -112,14 +115,19 @@ class ForceGraph{
 			.selectAll("circle")
 			.data(this.newGraph.nodes)
 			.enter().append("circle")
-			.attr("r", 5)
-			//.on("mouseover", this.tip.show)
-			.on("mouseout", function (d) {
-				//div.transition()
-					//.duration(500)
-					//.style("opacity", 0);
-			})
-			.attr("fill", function (d) {
+			.attr("r", 15)
+			.attr('class', d => 'p'+ d.id +' ' +d.abbreviation)
+			.on("mouseover", this.tip.show)
+			.on("mouseout", this.tip.hide)
+			.on('mouseenter', d => {
+                d3.selectAll('.p' + d.id).classed('selectedA',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.id).classed('selectedA',false)
+            })
+			
+			/* .attr("fill", function (d) {
+				console.log(d);
 				for (let i = 0; i < players.length; i++) {
 
 					if (players[i].playerid == d.id) {
@@ -131,7 +139,7 @@ class ForceGraph{
 				}
 				let nodeColor = randColor[Math.floor(Math.random() * randColor.length)];
 				return nodeColor;
-			})
+			}) */
 			.call(d3.drag()
 				.on("start", dragstarted)
 				.on("drag", dragged)
