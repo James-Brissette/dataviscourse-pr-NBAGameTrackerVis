@@ -140,8 +140,6 @@ class PlayerCard{
                     this.isChecked = false;
                     d3.select('.switch').classed('checked', false)
                 } else {
-                    frame_width = d3.select('.dataResults').node().getBoundingClientRect().width;
-                    svg_width = d3.select('#playerGraph').select('svg').node().getBoundingClientRect().width;
                     d3.select('.switch').transition()
                     .duration(1000)
                     .attr('transform','translate(120,0)')

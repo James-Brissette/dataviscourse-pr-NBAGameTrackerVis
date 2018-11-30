@@ -104,7 +104,7 @@ svg {
 
 #vtmActivePlayers, #htmActivePlayers {
     /* font-size: 25px; */
-    font-size: 1.3vmax;
+    font-size: 25px;
     cursor: pointer;
     fill: #fff;
 }
