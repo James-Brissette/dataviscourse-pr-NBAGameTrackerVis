@@ -1,10 +1,12 @@
 class Court{
-    constructor(gameData, players, teams, teamDisplays) {
+    constructor(gameData, players, teams, teamDisplays, passMap) {
         this.gameData = gameData;
         this.players = players;
         this.teams = teams;
-        this.teamDisplays = teamDisplays;
-        
+		this.teamDisplays = teamDisplays;
+		this.passMap = passMap;
+		this.coloredPlayers = [];
+
         this.courtBounds = d3.select('.courtPNG').node().getBoundingClientRect();
 
         this.courtWidth = this.courtBounds.width;
@@ -28,7 +30,7 @@ class Court{
                 .attr('xlink:href','./figs/scorecard-logos/' + this.teams.vtm.abbreviation + '.png')
                 .attr('height',scorecardheight-2)
         vtmscore
-            .append('text')
+            .append('text').classed('vtmPointCount',true)
                 .attr('x',185)
                 .attr('y',35)
                 .attr('text-anchor','middle')
@@ -40,7 +42,7 @@ class Court{
                 .attr('xlink:href','./figs/scorecard-logos/' + this.teams.htm.abbreviation + '.png')
                 .attr('height',scorecardheight-2)
         htmscore
-            .append('text')
+            .append('text').classed('htmPointCount',true)
                 .attr('x',185)
                 .attr('y', 35)
                 .attr('text-anchor','middle')
@@ -51,6 +53,11 @@ class Court{
             .attr('y', 25)
             .attr('text-anchor','middle')
             .text('eventId')
+
+        this.svg.append('text').attr('id','pauseLabel')
+            .attr('x',5)
+            .attr('y',20)
+            .text('(Click court to pause)')
 
         //Append the Quarter count
         d3.select('.period').append('svg')
@@ -82,12 +89,12 @@ class Court{
         this.xScale;
         this.yScale;
         this.rScale;
-
+		this.curHeatmap;
         this.dropShadow();
     }
 
     drawPlayers() {
-
+		this.curHeatmap = this.moments[0];
         //let positionData = this.gameData.events.map(a => a.moments.map(b => b['5']))
         //let xVals = test[0].map(a => a.map(b => b[2]))
         //let yteVals = test[0].map(a => a.map(b => b[2]))
@@ -144,9 +151,23 @@ class Court{
                 d3.selectAll('.p' + d[1]).classed('selectedA',false)
             })
 
-        d3.select('#eventId').text("Event" + this.event);
+        /* let jerseys = playerGroups.append('text');
+    
+        jerseys
+            .attr('x', (d,i) => this.xScale(i * 2))
+            .attr('y',  (d,i) => this.yScale(i * 2))
+            .attr('text-anchor','middle')
+            .attr('class', d => d[0] == -1 ? 'ball': 'jersey p' + d[1])
+            .text(d => {
+                if (d[0] == -1) { return '' }
+                if (d[0] == this.teams.htm.teamid) {
+                    console.log('Player id = ' + d[1] +'; Jersey = ' + that.teams.htm.players[that.teams.htm.players.map(a => a.playerid).indexOf(d[1])].jersey)
+                    return that.teams.htm.players[that.teams.htm.players.map(a => a.playerid).indexOf(d[1])].jersey;
+                } else {
+                    return that.teams.vtm.players[that.teams.vtm.players.map(a => a.playerid).indexOf(d[1])].jersey;
+                }
+            })*/ 
 
-        console.log(this.moments[0].map(a => a[1]).slice(1,11));
         let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
 
         this.svg.append('circle')
@@ -174,15 +195,52 @@ class Court{
 
         this.teamDisplays.updateActivePlayers(activePlayerList)
         this.teamDisplays.linkToCourt(this);
-    }
+	}
+
+	heatmapColor(data) {
+		for (let i = 0; i < this.coloredPlayers.length; i++) {
+			if (this.coloredPlayers[i][0] == data[1]) {
+				return this.coloredPlayers[i][1];
+			}
+		}
+		return 'transparent';
+	}
 
     update() {
         if (this.moment > this.moments.length - 1) {
             console.log('Moments exhausted')
             this.loadEvent();
             return;
-        }
-        
+		}
+
+		this.curHeatmap = this.curHeatmap.concat(this.moments[this.moment]);
+		let heatmapSquares = [];
+		if (this.coloredPlayers.length == 0) {
+			heatmapSquares = this.svg.selectAll('rect').data([]);
+		}
+		else {
+			heatmapSquares = this.svg.selectAll('rect').data(this.curHeatmap);
+		}
+		heatmapSquares.exit().remove();
+		heatmapSquares.enter().append('rect')
+			.attr('x', d => this.xScale(d[2]))
+			.attr('y', d => {
+				return this.yScale(d[3]);
+			})
+			.attr('width', 3)
+			.attr('height', 3)
+			.attr('class', d => 'name' + d[1])
+			.attr('fill', d => this.heatmapColor(d));
+
+		let curPossession = -1;
+		for (let i = 0; i < this.moments[this.moment].length; i++) {
+			if (this.moments[this.moment][i][5] == 1) {
+				curPossession = this.moments[this.moment][i][1];
+				break;
+			}
+		}
+		this.passMap.addPossession(curPossession);
+
         let players = this.svg.selectAll('circle')
         players.data(this.moments[this.moment])
             .attr('cx', d => this.xScale(d[2]))
@@ -190,21 +248,38 @@ class Court{
             .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
             .style("filter", d => d[0] == -1 ? '' : "url(#drop-shadow)");
 
+        console.log(this.events[this.event])
         d3.select('#gameClock').text("" + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
         if (this.events[this.event].moments[this.moment]['2'] != null) {
             d3.select('#shotClock').text("" + this.events[this.event].moments[this.moment]['2'].toFixed(1))
         }
-        d3.select('#quarter').text("Q" + this.events[this.event].moments[this.moment]['0']);
 
+        console.log()
+        d3.select('#quarter').text("Q" + this.events[this.event].moments[this.moment]['0']);
+        d3.select('.vtmPointCount').text(this.events[this.event].moments[this.moment][3][0]);
+        d3.select('.htmPointCount').text(this.events[this.event].moments[this.moment][3][1]);
+        d3.select('#eventId').text(this.events[this.event].moments[this.moment][3][2])
         this.moment++;
-    }
+	}
+
+	selectPlayer(playerid, color) {
+		this.coloredPlayers.push([playerid, color]);
+		this.svg.selectAll('.name' + playerid).attr('fill', color);
+	}
+
+	removePlayer(playerid) {
+		this.svg.selectAll('.name' + playerid).attr('fill', 'transparent');
+		for (let i = 0; i < this.coloredPlayers.length; i++) {
+			if (this.coloredPlayers[i][0] === playerid) {
+				this.coloredPlayers.splice(i, 1);
+				return;
+			}
+		}
+	}
 
     loadEvent() {
         this.event++;
-        console.log('Loading event ' + this.event);
-        d3.select('#eventId').text("Event " + this.event);
         if (this.event > this.events.length - 1) {
-            console.log('reached the end of the events');
             return;
         }
 

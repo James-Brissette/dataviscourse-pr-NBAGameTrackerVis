@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,125 +16,138 @@
 
 <body>
 
-<h1>NBA Game Tracker Preliminary Vis</h1>
+	<h1>NBA Game Tracker Preliminary Vis</h1>
 
- <div id='teamView' class='frame'>
-    <div class='section'>
-        <div class='header'>
-            <svg>
-                <text id='headerText'></text>
-            </svg>
-        </div>
-    </div>
-    <div class='section score'>
-        <div class='scorecard'>
-            <div class='vtmscore'></div>
-            <div class='htmscore'></div>
-            <div class='gameclock'>
-                <div class='period'></div>
-                <div class='time'></div>
-            </div>
-        </div>
-    </div>
-    <div class='section padded main'>
-        <div id='vtm' class='team'>
-            <div class='icon-highlight vtm'></div>
-        </div>
-         <div class='court'>
-            <img class='courtPNG' src='./figs/basketball-court.png'>
-            <svg class='overlay'></svg>
-        </div>
-     <div id='htm' class='team'>
-            <div class='icon-highlight htm'></div>
-        </div>
-    </div>
-    <div class='section'>
-        <div class='eventSlider'>
-            Slider
-        </div>
-    </div>
-    <div class='playerCardHolder'>
-        <div id='playerCardDiv'>
-            <div class='playerCard'></div>
-        </div>
-        <div id='playerCardStats'>
-            <div class='centered padded chart'>
-                <div class='summaryChart'>
-                    <svg id='chart1'></svg>
-                </div>
-                <div class='summaryChart'>
-                    <svg id='chart2'></svg>
-                </div>
-                <div class='summaryChart'>
-                    <svg id='chart3'></svg>
-                </div>
-                <div class='summaryChart'>
-                    <svg id='chart4'></svg>
-                </div>
-            </div> 
+	<div id='teamView' class='frame'>
+		<div class='section'>
+			<div class='header'>
+				<svg>
+					<text id='headerText'></text>
+				</svg>
+			</div>
+		</div>
+		<div class='section score'>
+			<div class='scorecard'>
+				<div class='vtmscore'></div>
+				<div class='htmscore'></div>
+				<div class='gameclock'>
+					<div class='period'></div>
+					<div class='time'></div>
+				</div>
+			</div>
+		</div>
+		<div class='section padded main'>
+			<div id='vtm' class='team'>
+				<div class='icon-highlight vtm'></div>
+			</div>
+			<div class='court'>
+				<img class='courtPNG' src='./figs/basketball-court.png'>
+				<svg class='overlay'></svg>
+			</div>
+			<div id='htm' class='team'>
+				<div class='icon-highlight htm'></div>
+			</div>
+		</div>
+		<div class='section'>
+			<div class='eventSlider'>
+				Slider
+			</div>
+		</div>
+		<div class='playerCardHolder'>
+			<div id='playerCardDiv'>
+				<div class='playerCard'></div>
+			</div>
 
-            <div class='centered padded'>
-                <div class='summaryChart'>
-                    <svg id='chart5'></svg>
-                </div>
-                <div class='summaryChart'>
-                    <svg id='chart6'></svg>
-                </div>
-                <div class='summaryChart'>
-                    <svg id='chart7'></svg>
-                </div>
-                <div class='summaryChart test'>
-                    <svg id='chart8'></svg>
-                </div>
-            </div>
-        </div>
-    </div> 
-    <!-- <svg>
-        <text x='100' y='40' fill="#fff" font-size="50" text-anchor='end'>#10</text>
-        <text x='105' y='20' fill="#fff" font-size="20">Stephen</text>
-        <text x='105' y='40' fill="#fff" font-size="20">Curry</text>
-        <text x='110' y='65' fill="#fff" font-size="20" text-anchor='end'>PASS:</text>
-        <text x='115' y='65' fill="#fff" font-size="20">25</text>
-    </svg> -->
+			<div class='dataResults'>
+				<div id='playerGraph'>
 
-    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
-        <linearGradient id='uta-gradient' x2="1" y2="1">
-          <stop offset="0%" stop-color="#f7d70d" />
-          <stop offset="16%" stop-color="#fda33b" />
-          <stop offset="31%" stop-color="#fd843c" />
-          <stop offset="47%" stop-color="#ff553c" />
-          <stop offset="61%" stop-color="#d33027" />
-          <stop offset="74%" stop-color="#7e2223" />
-          <stop offset="87%" stop-color="#682929" />
-          <stop offset="100%" stop-color="#391a1c" />
-        </linearGradient>
+				</div>
+				<div id='playerCardStats'>
+					<div class='centered padded chart'>
+						<div class='summaryChart'>
+							<svg id='chart1'></svg>
+						</div>
+						<div class='summaryChart'>
+							<svg id='chart2'></svg>
+						</div>
+						<div class='summaryChart'>
+							<svg id='chart3'></svg>
+						</div>
+						<div class='summaryChart'>
+							<svg id='chart4'></svg>
+						</div>
+					</div>
 
-        <filter id="grayscale">
-            <feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0"/>
-        </filter>
-    </svg>
+					<div class='centered padded'>
+						<div class='summaryChart'>
+							<svg id='chart5'></svg>
+						</div>
+						<div class='summaryChart'>
+							<svg id='chart6'></svg>
+						</div>
+						<div class='summaryChart'>
+							<svg id='chart7'></svg>
+						</div>
+						<div class='summaryChart test'>
+							<svg id='chart8'></svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <svg>
+			<text x='100' y='40' fill="#fff" font-size="50" text-anchor='end'>#10</text>
+			<text x='105' y='20' fill="#fff" font-size="20">Stephen</text>
+			<text x='105' y='40' fill="#fff" font-size="20">Curry</text>
+			<text x='110' y='65' fill="#fff" font-size="20" text-anchor='end'>PASS:</text>
+			<text x='115' y='65' fill="#fff" font-size="20">25</text>
+		</svg> -->
 
-</div>
-<div id="court">
-    
-</div> 
+		<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+			<linearGradient id='uta-gradient' x2="1" y2="1">
+				<stop offset="0%" stop-color="#f7d70d" />
+				<stop offset="16%" stop-color="#fda33b" />
+				<stop offset="31%" stop-color="#fd843c" />
+				<stop offset="47%" stop-color="#ff553c" />
+				<stop offset="61%" stop-color="#d33027" />
+				<stop offset="74%" stop-color="#7e2223" />
+				<stop offset="87%" stop-color="#682929" />
+				<stop offset="100%" stop-color="#391a1c" />
+			</linearGradient>
 
-<script type="application/javascript" src="public/js/Court.js"></script>
-<script type="application/javascript" src="public/js/Team.js"></script>
-<script type="application/javascript" src="public/js/StackedBarChart.js"></script>
-<script type="application/javascript" src="public/js/PlayerCard.js"></script>
-<script type="application/javascript" src="public/js/script.js"></script>
-<script type="application/javascript" src="public/js/preprocess.js"></script>
-<script>
+			<filter id="grayscale">
+				<feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0" />
+			</filter>
+		</svg>
+
+	</div>
+	<div id="court">
+
+	</div>
+	<div id="passGraph">
+		<div class="passGraph"></div>
+	</div>
+	<div id="currentPassGraph">
+		<div class="currentPassGraph"></div>
+	</div>
+	<script type="application/javascript" src="public/js/Court.js"></script>
+	<script type="application/javascript" src="public/js/Team.js"></script>
+	<script type="application/javascript" src="public/js/StackedBarChart.js"></script>
+	<script type="application/javascript" src="public/js/PlayerCard.js"></script>
+	<script type="application/javascript" src="public/js/forceGraph.js"></script>
+	<script type="application/javascript" src="public/js/PassBar.js"></script>
+	<script type="application/javascript" src="public/js/script.js"></script>
+	<!-- <script type="application/javascript" src="public/js/preprocess.js"></script> -->
+	<script>
 /* d3.svg('./figs/svg-logos/MIA.svg').then(svg => {
-            let s = d3.select(svg).select('svg').classed('teamLogo',true)
-                .attr('width', 250 / 2)
-                .attr('height', 250 / 3)
-                .attr('x', 10)
-                .attr('y', 10)
-            d3.select('.test').node().appendChild(s.node());
-        }); */
-</script>
+															let s = d3.select(svg).select('svg').classed('teamLogo',true)
+																.attr('width', 250 / 2)
+																.attr('height', 250 / 3)
+																.attr('x', 10)
+																.attr('y', 10)
+															d3.select('.test').node().appendChild(s.node());
+														}); */
+	</script>
 
 </body>
 </html>

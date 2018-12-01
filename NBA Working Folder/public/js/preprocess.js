@@ -45,7 +45,7 @@ d3.json("data/PlayByPlay.json").then(playData => {
 gameNumber = ('00' + 434).substr(-3);
 d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
     
-    console.log(gameData)
+    //console.log(gameData)
     /* let filteredEvents = filterEvents(gameData); */
 
     /* var blob = new Blob([JSON.stringify(filteredEvents)], {type : 'application/json'});
@@ -209,8 +209,48 @@ d3.json('data/players.json').then(gameData => {
 });
 
 
+gameNumber = ('00' + 434).substr(-3);
+d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
+    d3.json('data/'+gameNumber+'_playbyplay.json').then(scoreData => {
+        console.log(scoreData);
+        k = 0;
+        msg = 0;
+        score = [0,0];
+        for (i=0; i<gameData.events.length; i++) {
+            
+            //console.log(gameData.events[i]);
+            for (j=0; j<gameData.events[i].moments.length; j++) {
+                //console.log('Comparing ' + Math.floor(gameData.events[i].moments[j][1]) + ' and ' + scoreData.results.status[k][2])
+                
+                if (msg >= 225) { score = [score[0],score[1],''] }
+                
+                if (k >= scoreData.results.status.length) { break; }
+                if (gameData.events[i].moments[j][0] == scoreData.results.status[k][3] &&
+                    Math.floor(gameData.events[i].moments[j][1]) <= scoreData.results.status[k][2]) {
+                        msg = 0;
+                        idx = scoreData.results.status[k][1].indexOf('-');
+                        score = [(+scoreData.results.status[k][1].slice(0,idx)), (+scoreData.results.status[k][1].slice(idx+1)), scoreData.results[scoreData.results.status[k][4]][k]];
+                        console.log('score: ' + score)
+                        console.log(idx)
+                        console.log('i=' + i + '; j=' + j + '; k =' + k)
+                        console.log('Match in Q'+ scoreData.results.status[k][3] + ' @ time=' + scoreData.results.status[k][2] +'. Score: ' + scoreData.results.status[k][1])
+                        k++;
+                        if (scoreData.results.status[k][2] == 0) { k++ }
+                    }
+                
+                gameData.events[i].moments[j][3] = score;
+                msg++;
+
+            }
 
 
+        }
+
+        let blob = new Blob([JSON.stringify(gameData)], {type : 'application/json'});
+        saveAs(blob, '0021500' +gameNumber+'_p3-wscores.json');
+
+    });
+});
 
 
 

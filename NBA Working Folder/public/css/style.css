@@ -5,6 +5,11 @@ body {
     background-size: auto;
 }
 
+.links line {
+	stroke: black;
+	stroke-opacity: 0.6;
+}
+
 .overlay {
     position: absolute;
     top: 0;
@@ -99,18 +104,42 @@ svg {
 
 #vtmActivePlayers, #htmActivePlayers {
     /* font-size: 25px; */
-    font-size: 1.3vmax;
+    font-size: 23px;
     cursor: pointer;
     fill: #fff;
 }
 #vtmBenchPlayers, #htmBenchPlayers {
-    font-size: 25px;
+    font-size: 23px;
     cursor: pointer;
     fill: #fff;
 }
 
 .benchRoster > rect {
     fill: red;
+}
+
+.heatmap0 {
+	fill: rgb(57, 106, 177) !important;
+}
+
+.heatmap1 {
+	fill: rgb(62, 150, 81) !important;
+}
+
+.heatmap2 {
+	fill: rgb(204, 37, 41) !important;
+}
+
+.heatmap3 {
+	fill: rgb(83, 81, 87) !important;
+}
+
+.heatmap4 {
+	fill: rgb(107, 76, 154) !important;
+}
+
+.heatmap5 {
+	fill: rgb(204, 37, 41) !important;
 }
 
 .selectedA {
@@ -157,6 +186,13 @@ h1 {
     text-align: center;
 }
 
+#eventId {
+    font-size: 20px;
+    transform: translate(0px,5px)
+}
+#pauseLabel {
+    fill: #333;
+}
 .playerCardHolder {
     position: relative;
 }
@@ -167,8 +203,30 @@ h1 {
     height: 400px;
     opacity: 0;
     float: left;
+    border: 1px solid white;
+    display: inline-block;
+}
+#playerGraph {
+    position: relative;
+    /* border: 3px solid red; */
+    width: 0%;
+    opacity: 0;
+    float: left;
+    border: 1px solid white;
+}
+#passGraph, #currentPassGraph {
+    display: none;
+}
+#playerGraph {
+    height: 600px;
+    transform: translate(100px,0px)
 }
 
+.dataResults {
+    position: relative;
+    width: 98%;
+    display: inline-block;
+}
 #playerCardStats {
     position: relative;
     float: left;

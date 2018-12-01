@@ -2,9 +2,10 @@ class Team {
     constructor(teams, playerCard) {
         this.court;
         this.playerCard = playerCard;
-
+		this.colors = ['rgb(57, 106, 177)', 'rgb(62, 150, 81)', 'rgb(204, 37, 41)', 'rgb(83, 81, 87)', 'rgb(107, 76, 154)'];
+		this.selectedColors = [0, 0, 0, 0, 0];
+		this.nextColorIdx = 0;
         this.teams = teams;
-        console.log(this.teams);
         d3.select('#htm').select('svg').remove();
         d3.select('#vtm').select('svg').remove();
 
@@ -66,6 +67,47 @@ class Team {
     removeHtmTip() {
         return this.htm_tip.hide
     }
+
+	nextColor(playerid) {
+		for (let i = 0; i < this.selectedColors.length; i++) {
+			// If we already are being displayed, remove this selection
+			if (this.selectedColors[i] === playerid) {
+				this.selectedColors[i] = 0;
+				for (let k = 0; k < 7; k++) {
+					d3.selectAll('.p' + playerid).classed('heatmap' + k, false);
+				}
+				//d3.selectAll('.p' + playerid).attr('fill', 'white');
+				this.court.removePlayer(playerid);
+				return -1;
+			}
+		}
+		for (let i = 0; i < this.selectedColors.length; i++) {
+			if (this.selectedColors[i] === 0) {
+				this.selectedColors[i] = playerid;
+				d3.selectAll('.p' + playerid).classed('heatmap' + i, true);
+				//d3.selectAll('.p' + playerid).attr('fill', this.colors[i]);
+				return this.colors[i];
+			}
+		}
+
+		this.court.removePlayer(this.selectedColors[this.nextColorIdx]);
+		for (let k = 0; k < 7; k++) {
+			d3.selectAll('.p' + this.selectedColors[this.nextColorIdx]).classed('heatmap' + k, false);
+		}
+		//this.htm.selectAll('.p' + this.selectedColors[this.nextColorIdx]).attr('fill', 'white');
+		//this.vtm.selectAll('.p' + this.selectedColors[this.nextColorIdx]).attr('fill', 'white');
+
+		this.selectedColors[this.nextColorIdx] = playerid;
+
+		let ret = this.colors[this.nextColorIdx];
+		d3.selectAll('.p' + playerid).classed('heatmap' + this.nextColorIdx, true);
+		//d3.selectAll('.p' + playerid).attr('fill', ret);
+
+		this.nextColorIdx += 1;
+		this.nextColorIdx %= this.selectedColors.length;
+
+		return ret;
+	}
 
     drawLogos() {
         let htmLogoAbbreviation = this.teams.htm.abbreviation;
@@ -209,14 +251,13 @@ class Team {
         vtmBench.exit().remove();
         vtmBench = vtmBenchEnter.merge(vtmBench);
         
-        console.log(htmActive)
         htmActive
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
             .attr('class', d => 'p'+ d.playerid)
-            .on('click', d => this.playerCard.updatePlayer(d))
+
             .on('mouseenter', d => {
                 d3.selectAll('.p' + d.playerid).classed('selectedA',true)
             })
@@ -224,7 +265,13 @@ class Team {
                 d3.selectAll('.p' + d.playerid).classed('selectedA',false)
             })
             .on('click', d => {
-                that.updatePlayerCard(d);
+				
+				let color = this.nextColor(d.playerid);
+				if (color == -1) {
+					return;
+				}
+				this.court.selectPlayer(d.playerid, color);
+				that.updatePlayerCard(d);
             })
             /* .on('mouseenter', this.htm_tip.show)
              .on('mouseenter', this.htm_tip.hide) */
@@ -235,15 +282,6 @@ class Team {
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
             .attr('class', d => 'p'+ d.playerid)
-            .on('click', d => this.playerCard.updatePlayer(d))
-
-        vtmActive
-            .text(d => d.firstname + ' ' + d.lastname)
-            .attr('x', this.teamWidth / 6)
-            .attr('y', (d,i) => 10 + 25 * i)
-            .attr('text-anchor', 'start')
-            .attr('class', d => 'p' + d.playerid)
-            .on('click', d => this.playerCard.updatePlayer(d))
             .on('mouseenter', d => {
                 d3.selectAll('.p' + d.playerid).classed('selectedA',true)
             })
@@ -254,11 +292,41 @@ class Team {
                 that.updatePlayerCard(d);
             })
 
+        vtmActive
+            .text(d => d.firstname + ' ' + d.lastname)
+            .attr('x', this.teamWidth / 6)
+            .attr('y', (d,i) => 10 + 25 * i)
+            .attr('text-anchor', 'start')
+            .attr('class', d => 'p' + d.playerid)
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',false)
+            })
+            .on('click', d => {
+				
+
+				let color = this.nextColor(d.playerid);
+				if (color == -1) {
+					return;
+				}
+				this.court.selectPlayer(d.playerid, color);
+				that.updatePlayerCard(d);
+            })
+
         vtmBench
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)
             .attr('y', (d,i) => 35 + 25 * i)
             .attr('text-anchor', 'start')
+            .attr('class', d => 'p' + d.playerid)
+            .on('mouseenter', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',true)
+            })
+            .on('mouseleave', d => {
+                d3.selectAll('.p' + d.playerid).classed('selectedA',false)
+            })
             .on('click', d => {
                 that.updatePlayerCard(d);
             })
@@ -274,6 +342,7 @@ class Team {
     }
 
     updatePlayerCard(d) {
+        let that = this;
         this.playerCard.updatePlayer(d)
         d3.select('.switch').attr('class','switch ' + d.abbreviation);
             if (this.playerIsActive && this.selectedPlayer == d.playerid) {
@@ -283,19 +352,38 @@ class Team {
                     .duration(1000)
                     .style('width', '0%')
                     .style('opacity',0)
-                d3.select('#playerCardStats')
+                d3.select('.dataResults')
                     .style('width', '74%')
                     .transition()
                     .duration(1000)
-                    .style('width', '99%')
+                    .style('width', '98%')
+                    
+                    console.log(d3.select('.switch')._groups[0][0].classList);
+                if (d3.select('.switch')._groups[0][0].classList.value.indexOf('checked') > -1) { 
+                    d3.select('.switch').dispatch('click') 
+                };
+                /* d3.select('#playerGraph')
+                    .transition()
+                    .duration(1000)
+                    .style('width','0px')
+                    .style('opacity',0)
+                d3.select('#playerCardStats')
+                    .transition()
+                    .duration(1000)
+                    .style('width','99%')
+                    .style('opacity',1)
+                d3.select('.switch').transition()
+                    .duration(1000)
+                    .attr('transform','translate(0,0)') */
+                
 
                 d3.selectAll('.selectedB').classed('selectedB',false)
                 this.playerIsActive = false;
                 this.selectedPlayer = 0;
 
             } else if (!this.playerIsActive) {
-                d3.select('#playerCardStats')
-                    .style('width', '99%')
+                d3.select('.dataResults')
+                    .style('width', '98%')
                     .transition()
                     .duration(1000)
                     .style('width', '74%')

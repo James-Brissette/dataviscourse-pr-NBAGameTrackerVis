@@ -16,7 +16,6 @@ class StackedBarChart{
                         .domain([0,this.chartData[1].map(a => a[3])[0]])
                         .range(['#fff','#009'])
 
-        console.log(this.chartBounds);
         this.svg = d3.select('#' + svgID)
             .attr('width',this.chartWidth)
             .attr('height',this.chartHeight)
@@ -36,6 +35,8 @@ class StackedBarChart{
 			.offset(function() {
 				return ([0,0]);
             });
+
+
 
         this.drawBars();
     }    
