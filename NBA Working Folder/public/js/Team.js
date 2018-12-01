@@ -4,7 +4,6 @@ class Team {
         this.playerCard = playerCard;
 
         this.teams = teams;
-        console.log(this.teams);
         d3.select('#htm').select('svg').remove();
         d3.select('#vtm').select('svg').remove();
 
@@ -209,7 +208,6 @@ class Team {
         vtmBench.exit().remove();
         vtmBench = vtmBenchEnter.merge(vtmBench);
         
-        console.log(htmActive)
         htmActive
             .text(d => d.firstname + ' ' + d.lastname)
             .attr('x', this.teamWidth / 6)

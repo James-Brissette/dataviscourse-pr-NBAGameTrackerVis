@@ -147,7 +147,6 @@ class Court{
 
         d3.select('#eventId').text("Event" + this.event);
 
-        console.log(this.moments[0].map(a => a[1]).slice(1,11));
         let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
 
         this.svg.append('circle')
@@ -211,10 +210,8 @@ class Court{
 
     loadEvent() {
         this.event++;
-        console.log('Loading event ' + this.event);
         d3.select('#eventId').text("Event " + this.event);
         if (this.event > this.events.length - 1) {
-            console.log('reached the end of the events');
             return;
         }
 

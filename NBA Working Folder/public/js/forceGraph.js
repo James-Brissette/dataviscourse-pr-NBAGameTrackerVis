@@ -55,7 +55,6 @@ class ForceGraph{
 	setupForceGraph() {
 		this.newGraph = { 'links': [], 'nodes': [] };
 		for (let i = 0; i < this.players.length; i++) {
-			console.log(this.players[i])
 			this.newGraph.nodes.push(
 				{ 'id': this.players[i].playerid ,
 				  'abbreviation': this.players[i].abbreviation }

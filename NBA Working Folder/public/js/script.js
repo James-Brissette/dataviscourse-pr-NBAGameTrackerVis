@@ -5,7 +5,6 @@ let playerCard;
 
 gameNumber = ('00' + 434).substr(-3);
 d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
-    console.log(gameData);
 
     let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
     let teams = [];
@@ -42,7 +41,7 @@ d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
             stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
             stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
                     stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
-            console.log(stat);
+        
             new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax,playerStats[i],playerCard);
         }
     });
@@ -59,20 +58,19 @@ d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
             stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[playerStatCol]])
             stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
                     stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
-            console.log(stat);
+            
             new StackedBarChart(stat,teams,'chart'+(i+1),playerStatCol,yMax,playerStats[i],playerCard);
         }
 
         playerStatCol = chartData.resultSets[0].headers.indexOf(playerStats[7][0]);
         teamStatCol = chartData.resultSets[1].headers.indexOf(playerStats[7][0]);
-        yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => (+a[teamStatCol].slice(0,a[teamStatCol].indexOf(':')))+(+a[teamStatCol].slice(a[teamStatCol].indexOf(':')+1)/60)).flat());
+        yMax = Math.max(...chartData.resultSets[1].rowSet.map(a => +a[5].slice(0,a[5].indexOf(':'))).flat());
         
         console.log(chartData)
         console.log(yMax);
-        stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],(+a[teamStatCol].slice(0,a[teamStatCol].indexOf(':')))+(+a[teamStatCol].slice(a[teamStatCol].indexOf(':')+1)/60)])
+        stat = chartData.resultSets[0].rowSet.map(a => [a[2],a[4],a[5],a[8] == null ? 0 : (+a[8].slice(0,a[8].indexOf(':'))+((+a[8].slice(a[8].indexOf(':')+1)/60))).toFixed(2)])
         stat = [stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.htm.abbreviation}),
                 stat.sort(function(a,b){ return b[3]-a[3]; }).filter(e => { return e[0] == teams.vtm.abbreviation})];
-        console.log(stat);
         new StackedBarChart(stat,teams,'chart'+(8),playerStatCol,yMax,playerStats[i],playerCard);
     });
 
