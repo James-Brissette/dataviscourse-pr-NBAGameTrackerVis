@@ -53,6 +53,11 @@ class Court{
             .attr('text-anchor','middle')
             .text('eventId')
 
+        this.svg.append('text').attr('id','pauseLabel')
+            .attr('x',5)
+            .attr('y',20)
+            .text('(Click court to pause)')
+
         //Append the Quarter count
         d3.select('.period').append('svg')
             .attr('height','100%')
@@ -161,7 +166,6 @@ class Court{
                     return that.teams.vtm.players[that.teams.vtm.players.map(a => a.playerid).indexOf(d[1])].jersey;
                 }
             })*/ 
-        d3.select('#eventId').text("Event" + this.event);
 
         let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
 
@@ -215,6 +219,7 @@ class Court{
             .attr('r',d => d[0] == -1 ? this.rScale(d[4]) : (12 + this.scaleEffect))
             .style("filter", d => d[0] == -1 ? '' : "url(#drop-shadow)");
 
+        console.log(this.events[this.event])
         d3.select('#gameClock').text("" + Math.floor(this.events[this.event].moments[this.moment]['1'] / 60) + ':' + (this.events[this.event].moments[this.moment]['1']%60).toFixed(0));
         if (this.events[this.event].moments[this.moment]['2'] != null) {
             d3.select('#shotClock').text("" + this.events[this.event].moments[this.moment]['2'].toFixed(1))
@@ -224,13 +229,12 @@ class Court{
         d3.select('#quarter').text("Q" + this.events[this.event].moments[this.moment]['0']);
         d3.select('.vtmPointCount').text(this.events[this.event].moments[this.moment][3][0]);
         d3.select('.htmPointCount').text(this.events[this.event].moments[this.moment][3][1]);
-
+        d3.select('#eventId').text(this.events[this.event].moments[this.moment][3][2])
         this.moment++;
     }
 
     loadEvent() {
         this.event++;
-        d3.select('#eventId').text("Event " + this.event);
         if (this.event > this.events.length - 1) {
             return;
         }

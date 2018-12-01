@@ -104,12 +104,12 @@ svg {
 
 #vtmActivePlayers, #htmActivePlayers {
     /* font-size: 25px; */
-    font-size: 25px;
+    font-size: 23px;
     cursor: pointer;
     fill: #fff;
 }
 #vtmBenchPlayers, #htmBenchPlayers {
-    font-size: 25px;
+    font-size: 23px;
     cursor: pointer;
     fill: #fff;
 }
@@ -162,6 +162,13 @@ h1 {
     text-align: center;
 }
 
+#eventId {
+    font-size: 20px;
+    transform: translate(0px,5px)
+}
+#pauseLabel {
+    fill: #333;
+}
 .playerCardHolder {
     position: relative;
 }
