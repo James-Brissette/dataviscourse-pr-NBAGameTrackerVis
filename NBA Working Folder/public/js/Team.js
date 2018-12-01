@@ -216,7 +216,6 @@ class Team {
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
             .attr('class', d => 'p'+ d.playerid)
-            .on('click', d => this.playerCard.updatePlayer(d))
             .on('mouseenter', d => {
                 d3.selectAll('.p' + d.playerid).classed('selectedA',true)
             })
@@ -251,7 +250,6 @@ class Team {
             .attr('y', (d,i) => 10 + 25 * i)
             .attr('text-anchor', 'start')
             .attr('class', d => 'p' + d.playerid)
-            .on('click', d => this.playerCard.updatePlayer(d))
             .on('mouseenter', d => {
                 d3.selectAll('.p' + d.playerid).classed('selectedA',true)
             })
