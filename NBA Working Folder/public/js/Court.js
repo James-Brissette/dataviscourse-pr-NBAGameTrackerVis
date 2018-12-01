@@ -29,7 +29,7 @@ class Court{
                 .attr('xlink:href','./figs/scorecard-logos/' + this.teams.vtm.abbreviation + '.png')
                 .attr('height',scorecardheight-2)
         vtmscore
-            .append('text')
+            .append('text').classed('vtmPointCount',true)
                 .attr('x',185)
                 .attr('y',35)
                 .attr('text-anchor','middle')
@@ -41,7 +41,7 @@ class Court{
                 .attr('xlink:href','./figs/scorecard-logos/' + this.teams.htm.abbreviation + '.png')
                 .attr('height',scorecardheight-2)
         htmscore
-            .append('text')
+            .append('text').classed('htmPointCount',true)
                 .attr('x',185)
                 .attr('y', 35)
                 .attr('text-anchor','middle')
@@ -145,6 +145,22 @@ class Court{
                 d3.selectAll('.p' + d[1]).classed('selectedA',false)
             })
 
+        /* let jerseys = playerGroups.append('text');
+    
+        jerseys
+            .attr('x', (d,i) => this.xScale(i * 2))
+            .attr('y',  (d,i) => this.yScale(i * 2))
+            .attr('text-anchor','middle')
+            .attr('class', d => d[0] == -1 ? 'ball': 'jersey p' + d[1])
+            .text(d => {
+                if (d[0] == -1) { return '' }
+                if (d[0] == this.teams.htm.teamid) {
+                    console.log('Player id = ' + d[1] +'; Jersey = ' + that.teams.htm.players[that.teams.htm.players.map(a => a.playerid).indexOf(d[1])].jersey)
+                    return that.teams.htm.players[that.teams.htm.players.map(a => a.playerid).indexOf(d[1])].jersey;
+                } else {
+                    return that.teams.vtm.players[that.teams.vtm.players.map(a => a.playerid).indexOf(d[1])].jersey;
+                }
+            })*/ 
         d3.select('#eventId').text("Event" + this.event);
 
         let activePlayerList = this.moments[0].map(a => a[1]).slice(1,11);
@@ -203,7 +219,11 @@ class Court{
         if (this.events[this.event].moments[this.moment]['2'] != null) {
             d3.select('#shotClock').text("" + this.events[this.event].moments[this.moment]['2'].toFixed(1))
         }
+
+        console.log()
         d3.select('#quarter').text("Q" + this.events[this.event].moments[this.moment]['0']);
+        d3.select('.vtmPointCount').text(this.events[this.event].moments[this.moment][3][0]);
+        d3.select('.htmPointCount').text(this.events[this.event].moments[this.moment][3][1]);
 
         this.moment++;
     }

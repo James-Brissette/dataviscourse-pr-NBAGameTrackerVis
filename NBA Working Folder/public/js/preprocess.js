@@ -210,7 +210,7 @@ d3.json('data/players.json').then(gameData => {
 
 
 gameNumber = ('00' + 434).substr(-3);
-d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
+d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
     d3.json('data/'+gameNumber+'_playbyplay.json').then(scoreData => {
         console.log(scoreData);
         k = 0;
@@ -240,7 +240,7 @@ d3.json('data/0021500'+gameNumber+'_p2.json').then(gameData => {
         }
 
         let blob = new Blob([JSON.stringify(gameData)], {type : 'application/json'});
-        saveAs(blob, '0021500' +gameNumber+'_p3-wscores.json');
+        //saveAs(blob, '0021500' +gameNumber+'_p3-wscores.json');
 
     });
 });

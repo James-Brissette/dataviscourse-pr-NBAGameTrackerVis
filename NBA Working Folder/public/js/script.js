@@ -4,7 +4,7 @@ let teamDisplays;
 let playerCard;
 
 gameNumber = ('00' + 434).substr(-3);
-d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
+d3.json('data/0021500'+gameNumber+'_poss_wscores.json').then(gameData => {
 
     let players = [gameData.teams.home.players, gameData.teams.visitor.players].flat();
     let teams = [];
@@ -104,7 +104,7 @@ d3.json('data/0021500'+gameNumber+'_p2_possession.json').then(gameData => {
         let t = Math.min(100, elapsed / 1000);
         if (draw) court.update();
         draw = !draw;
-        if (t == 100) timer.stop();
+        /* if (t == 100) timer.stop(); */
     }
 });
 
